@@ -75,6 +75,6 @@ graph.addEdge('A', 'B');
 graph.addEdge('B', 'C');
 graph.addEdge('C', 'D');
 // Uncomment the following line to test a case where topological sort is not possible due to a cycle
-// graph.addEdge('D', 'B');
+graph.addEdge('D', 'A');
 
 console.log(graph.topologicalSortKahn()); // Output: ['A', 'B', 'C', 'D']
