@@ -2,7 +2,7 @@ const { MinHeap } = require('heap');
 
 function dijkstra(N, edges, src) {
     // Initialize adjacency list
-    const adjList = Array.from({ length: N }, () => []);
+    const adjList = Array(N).fill(null).map(()=>[])
     edges.forEach(([u, v, w]) => {
         adjList[u].push([v, w]);
         adjList[v].push([u, w]); // For undirected graph
