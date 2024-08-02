@@ -276,3 +276,33 @@ function findPath(node, arr) {
     return helper(node.left, arr, index + 1) || helper(node.right, arr, index + 1);
   }
   
+
+  //https://leetcode.com/problems/binary-tree-paths/description/
+  function binaryTreePaths(root) {
+    const paths = [];
+  
+    // Helper function to perform DFS and collect paths
+    function dfs(node, path) {
+      if (!node) return;
+  
+      // Append the current node's value to the path
+      path += node.val;
+  
+      // If it's a leaf node, add the path to the results
+      if (!node.left && !node.right) {
+        paths.push(path);
+      } else {
+        // Continue to traverse the tree
+        if (node.left) {
+          dfs(node.left, path + '->');
+        }
+        if (node.right) {
+          dfs(node.right, path + '->');
+        }
+      }
+    }
+  
+    dfs(root, '');
+    return paths;
+  }
+  
