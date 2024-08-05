@@ -50,10 +50,10 @@ class SubSeq {
 
 SubSeq.subseq("", "abc");
 
-let ans = SubSeq.subseqRet("", "abc");
-console.log(ans);
+// let ans = SubSeq.subseqRet("", "abc");
+// console.log(ans);
 
-SubSeq.subseqAscii("", "abc");
+// SubSeq.subseqAscii("", "abc");
 
-let ansAscii = SubSeq.subseqAsciiRet("", "abc");
-console.log(ansAscii);
+// let ansAscii = SubSeq.subseqAsciiRet("", "abc");
+// console.log(ansAscii);

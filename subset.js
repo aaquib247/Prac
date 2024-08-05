@@ -1,21 +1,22 @@
-function subset(arr) {
-    let outer = [[]];
+function generateSubsets(array) {
+    let subsets = [[]]; // Initialize with the empty subset
 
-    for (let num of arr) {
-        let n = outer.length;
-        for (let i = 0; i < n; i++) {
-            let internal = outer[i].slice(); // Create a copy of the subset
-            internal.push(num); // Add current element to the subset
-            outer.push(internal); // Add the updated subset to the result
+    for (let element of array) {
+        let currentLength = subsets.length; // Number of subsets currently in subsets
+        for (let i = 0; i < currentLength; i++) {
+            let newSubset = subsets[i].slice(); // Create a copy of the existing subset
+            newSubset.push(element); // Add the current element to the copy
+            subsets.push(newSubset); // Add the new subset to the list of subsets
         }
     }
 
-    return outer;
+    return subsets;
 }
 
 // Example usage:
-let arr = [1, 2, 3];
-let ans = subset(arr);
-for (let list of ans) {
-    console.log(list);
+const array = [1, 2, 3,4];
+const allSubsets = generateSubsets(array);
+for (const subset of allSubsets) {
+    console.log(subset);
 }
+
