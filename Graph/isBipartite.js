@@ -93,3 +93,49 @@ bipartiteGraph.addEdge('C', 'D');
 
 // Check if the bipartiteGraph is bipartite
 console.log("Is the bipartiteGraph bipartite?", bipartiteGraph.isBipartite()); // Output: true
+
+/*
+
+var isBipartite = function(graph) {
+    const m = graph.length;
+    const adjList = {};
+
+    // Build adjacency list from graph
+    for (let i = 0; i < m; i++) {
+        adjList[i] = graph[i];
+    }
+
+    const colour = {};
+
+    function bfs(start) {
+        let queue = [start];
+        colour[start] = 0; // Start coloring with 0
+
+        while (queue.length > 0) {
+            const currVertex = queue.shift();
+
+            for (const neighbour of adjList[currVertex]) {
+                if (!colour[neighbour]) {
+                    // If not colored, color with opposite color
+                    colour[neighbour] = 1 - colour[currVertex];
+                    queue.push(neighbour);
+                } else if (colour[neighbour] === colour[currVertex]) {
+                    // If neighbor has the same color as the current vertex
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    for (let vertex in Object.keys(adjList)) {
+        if (!colour[vertex]) { // If not yet colored
+            if (!bfs(vertex)) {
+                return false;
+            }
+        }
+    }
+
+    return true;
+};
+*/
