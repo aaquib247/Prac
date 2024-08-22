@@ -5,7 +5,7 @@ class Graph {
     }
 
     addEdge(u, v, w) {
-        this.adjList[u].push({ to: v, weight: w });
+        this.adjList[u].push([v, w]);
         // For directed graph, no need to add reverse edge
     }
 
@@ -17,7 +17,7 @@ class Graph {
         // Relax edges |V| - 1 times
         for (let i = 1; i < this.N; i++) {
             for (let u = 0; u < this.N; u++) {
-                for (const { to: v, weight } of this.adjList[u]) {
+                for (const [v, weight] of this.adjList[u]) {
                     if (dist[u] !== Infinity && dist[u] + weight < dist[v]) {
                         dist[v] = dist[u] + weight;
                     }
@@ -27,7 +27,7 @@ class Graph {
 
         // Check for negative weight cycles
         for (let u = 0; u < this.N; u++) {
-            for (const { to: v, weight } of this.adjList[u]) {
+            for (const [v, weight] of this.adjList[u]) {
                 if (dist[u] !== Infinity && dist[u] + weight < dist[v]) {
                     throw new Error("Graph contains a negative-weight cycle");
                 }

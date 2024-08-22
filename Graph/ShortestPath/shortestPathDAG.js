@@ -1,15 +1,15 @@
 function shortestPath(N, M, edges) {
+    const inDegree = Array(N).fill(0);
+    const adjList = Array(N).fill(null).map(() => []);
+    
+    // Build the adjacency list and in-degree array
+    edges.forEach(([u, v, w]) => {
+        adjList[u].push([v, w]);
+        inDegree[v]++;
+    });
     // Helper function to perform topological sort
     function topologicalSort() {
-        const inDegree = Array(N).fill(0);
-        const adjList = Array(N).fill(null).map(() => []);
-        
-        // Build the adjacency list and in-degree array
-        edges.forEach(([u, v, w]) => {
-            adjList[u].push([v, w]);
-            inDegree[v]++;
-        });
-        
+
         const queue = [];
         const topoOrder = [];
         
