@@ -1,76 +1,177 @@
-class Graph {
-    constructor(graphData) {
-        this.adjacencyList = {};
-        this.initializeGraph(graphData);
-    }
-
-    initializeGraph(graphData) {
-        for (let i = 0; i < graphData.length; i++) {
-            this.adjacencyList[i] = graphData[i];
-        }
-    }
-
-    getSafeNodes() {
-        const visited = new Set(); // To track fully processed nodes
-        const recStack = new Set(); // To track nodes in the current DFS path
-        const unsafeNodes = new Set(); // Nodes that are part of a cycle
-        const terminalNodes = new Set(); // Terminal nodes
-        const safeNodes = new Set(); // Safe nodes
-
-        // Identify terminal nodes (nodes with no outgoing edges)
-        for (let vertex in this.adjacencyList) {
-            if (this.adjacencyList[vertex].length === 0) {
-                terminalNodes.add(Number(vertex));
-            }
-        }
-
-        // Detect cycles and unsafe nodes
-        for (let vertex in this.adjacencyList) {
-            if (!visited.has(Number(vertex))) {
-                this._detectCycle(Number(vertex), visited, recStack, unsafeNodes);
-            }
-        }
-
-        // Determine safe nodes
-        for (let vertex in this.adjacencyList) {
-            if (!unsafeNodes.has(Number(vertex))) {
-                safeNodes.add(Number(vertex));
-            }
-        }
-
-        // Convert to sorted array
-        return Array.from(safeNodes).sort((a, b) => a - b);
-    }
-
-    _detectCycle(vertex, visited, recStack, unsafeNodes) {
-        visited.add(vertex);
-        recStack.add(vertex);
-
-        for (const neighbor of this.adjacencyList[vertex]) {
-            if (!visited.has(neighbor)) {
-                if (this._detectCycle(neighbor, visited, recStack, unsafeNodes)) {
-                    unsafeNodes.add(neighbor); // Add neighbor to unsafe nodes
-                    unsafeNodes.add(vertex); // Add current node to unsafe nodes
-                    return true;
-                }
-            } else if (recStack.has(neighbor)) {
-                // Cycle detected; add all nodes in the cycle to unsafeNodes
-                unsafeNodes.add(neighbor);
-                unsafeNodes.add(vertex);
-                return true;
-            }
-        }
-
-        recStack.delete(vertex); // Remove from recursion stack before backtracking
-        return false;
+class nodeClass {
+    constructor(val) {
+        this.data = val;
+        this.left = null;
+        this.right = null;
     }
 }
 
-// Example usage
-const graphData1 = [[1, 2], [2, 3], [5], [0], [5], [], []];
-const graph1 = new Graph(graphData1);
-console.log(graph1.getSafeNodes()); // Output: [2, 4, 5, 6]
+class Tree {
+    constructor() {
+        this.root = null;
+    }
 
-const graphData2 = [[1, 2, 3, 4], [1, 2], [3, 4], [0, 4], []];
-const graph2 = new Graph(graphData2);
-console.log(graph2.getSafeNodes()); // Output: [4]
+    insert(data) {
+        this.root = this._insert(data, this.root)
+    }
+
+    _insert(data, node) {
+        if (node === null)
+            return new nodeClass(data);
+
+        if (data < node.data)
+            node.left = this._insert(data, node.left)
+
+        if (data > node.data)
+            node.right = this._insert(data, node.right)
+
+        return node;
+    }
+
+    preOrder(root) {
+
+        if (root == null)
+            return null;
+
+        if(root !== null){
+            console.log(root.data);
+            this.preOrder(root.left);
+            this.preOrder(root.right);
+
+        }
+ 
+    }
+
+
+    inOrder(root) {
+
+        if (root == null)
+            return [];
+
+        this.inOrder(root.left);
+        console.log(root.data);
+        this.inOrder(root.right);
+    }
+
+
+    diameter(root) {
+        let dia = 0
+        function height(root) {
+            if (root == null) return 0;
+
+            let l = height(root.left)
+            let r = height(root.right)
+
+            let max = l + r;
+            dia = Math.max(max, dia)
+
+            return Math.max(l, r) + 1
+
+        }
+        height(root);
+        return dia
+    }
+
+    symmetry(root) {
+        if (root == null)
+            return true;
+
+        let queue = [];
+        queue.push(root.left)
+        queue.push(root.right)
+
+        while (queue.length > 0) {
+            let l = queue.shift();
+            let r = queue.shift();
+
+            if (l !== r) return false;
+            if (l == null && r == null) return true;
+            if (l == null || r == null) return false;
+
+            queue.push(l.left);
+            queue.push(r.right)
+            queue.push(l.right)
+            queue.push(r.left)
+
+        }
+
+        return true;
+    }
+
+    sorted(arr) {
+
+
+        function createTree(left, right) {
+
+            if (left > right)
+                return null;
+
+            let mid = Math.floor((left + right) / 2);
+            let root = new nodeClass(arr[mid])
+            root.left = createTree(left, mid - 1);
+            root.right = createTree(mid + 1, right)
+            return root;
+        }
+
+        const bst = createTree(0, arr.length - 1)
+        this.preOrder(bst)
+
+    }
+
+    linkedList(root) {
+        if (root == null) return null;
+
+        let current = root;
+
+        while (current !== null) {
+            if (current.left != null) {
+                let temp = current.left;
+
+                while (temp.right !== null) {
+                    temp = temp.right;
+                }
+                temp.right = current.right;
+                current.right = current.left;
+                current.left = null;
+
+            }
+            current = current.right;
+
+        }
+
+        this.preOrder(this.root)
+        return this.root
+    }
+
+}
+
+
+const tree = new Tree();
+
+tree.insert(10)
+tree.insert(5)
+tree.insert(15)
+tree.insert(5)
+tree.insert(2)
+tree.insert(7)
+tree.insert(12)
+tree.insert(18)
+
+console.log(tree.linkedList(tree.root))
+
+// console.log(tree.inOrder(tree.root));
+// console.log(tree.diameter(tree.root));
+
+
+// tree.insert(1)
+// tree.insert(2)
+// tree.insert(2)
+// tree.insert(3)
+// tree.insert(4)
+// tree.insert(4)
+// tree.insert(3)
+// console.log(tree.inOrder(tree.root));
+// console.log(tree.symmetry(tree.root))
+// const arr = [1,2,3,4,5,6,7]
+// console.log(tree.sorted(arr))
+
