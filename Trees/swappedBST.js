@@ -1,4 +1,39 @@
 // Definition for a binary tree node.
+
+var recoverTree = function(root) {
+    let first = null;
+    let second = null;
+    let prev = null;
+    
+    // In-order traversal to find the swapped nodes
+    function inOrderTraversal(node) {
+        if (node === null) return;
+        
+        inOrderTraversal(node.left);
+        
+        if (prev && prev.val > node.val) {
+            if (first === null) {
+                first = prev;
+            }
+            second = node;
+        }
+        prev = node;
+        
+        inOrderTraversal(node.right);
+    }
+    
+    inOrderTraversal(root);
+    
+    // Swap the values of the two nodes
+    if (first && second) {
+        let temp = first.val;
+        first.val = second.val;
+        second.val = temp;
+    }
+};
+
+//-------------------------------------------
+
 class Node {
     constructor(val, left = null, right = null) {
         this.val = val;
