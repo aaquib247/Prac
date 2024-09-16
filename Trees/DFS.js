@@ -130,23 +130,23 @@ var kthSmallest = function (root, k) {
 };
 
 //https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
-var buildTree = function(preorder, inorder) {
-   if(preorder.length == 0)
-    return null;
+var buildTree = function (preorder, inorder) {
+    if (preorder.length == 0)
+        return null;
 
     let r = preorder[0];
     let index = 0;
 
-    for(let i=0;i<inorder.length;i++){
-       if(inorder[i] === r)
-         index = i;
+    for (let i = 0; i < inorder.length; i++) {
+        if (inorder[i] === r)
+            index = i;
     }
     let root = new TreeNode(r);
-    root.left = buildTree(preorder.slice(1,index+1),inorder.slice(0,index))
-    root.right = buildTree(preorder.slice(index+1,preorder.length),inorder.slice(index+1,inorder.length))
+    root.left = buildTree(preorder.slice(1, index + 1), inorder.slice(0, index))
+    root.right = buildTree(preorder.slice(index + 1, preorder.length), inorder.slice(index + 1, inorder.length))
 
     return root;
-   
+
 };
 
 //Serialization (tree into strings) and Deserialization (strings to trees)
@@ -155,38 +155,38 @@ function serialize(root) {
     if (!root) {
         return 'null';
     }
-    
+
     // Serialize the root node
     const serializedLeft = serialize(root.left);
     const serializedRight = serialize(root.right);
-    
+
     return `${root.val},${serializedLeft},${serializedRight}`;
 }
 
 function deserialize(data) {
     // Split the serialized string into an array of values
     const nodes = data.split(',');
-    
+
     // Recursive function to build the tree
     function buildTree() {
         // Get the next value from the array
         const val = nodes.shift();
-        
+
         // Base case: If the value is "null", return null
         if (val === 'null') {
             return null;
         }
-        
+
         // Create a new node with the extracted value
         const node = new TreeNode(parseInt(val));
-        
+
         // Recursively build the left and right subtrees
         node.left = buildTree();
         node.right = buildTree();
-        
+
         return node;
     }
-    
+
     // Start building the tree from the root
     return buildTree();
 }
@@ -196,7 +196,7 @@ var hasPathSum = function (root, targetSum) {
     if (root == null)
         return false;
     targetSum = targetSum - root.val;
-   if (targetSum === 0 && root.left === null && root.right === null) {
+    if (targetSum === 0 && root.left === null && root.right === null) {
         return true;
     }
     // Recursively check left and right subtrees
@@ -229,7 +229,7 @@ function sumNumbersHelper(node, currentSum) {
 //https://leetcode.com/problems/binary-tree-maximum-path-sum
 var maxPathSum = function (root) {
     let ans = -Infinity; // Initialize ans to a very small number
-    
+
     helper(root);
     function helper(node) {
         if (node === null) {
@@ -250,6 +250,7 @@ var maxPathSum = function (root) {
         ans = Math.max(ans, pathSum);
 
         // Return the maximum path sum that can extend further up to the parent nodes
+        // This is to return to parent which is max left or right coz the pathsum will calculate both left and right leading to an incorrect answer.
         return Math.max(left, right) + node.val;
     }
     // Return the overall maximum path sum found
@@ -259,50 +260,49 @@ var maxPathSum = function (root) {
 //Path Exists in Binary Tree from Root to Leaf - [3,9,12,8]
 function findPath(node, arr) {
     if (node === null) {
-      return arr.length === 0;
+        return arr.length === 0;
     }
     return helper(node, arr, 0);
-  }
-  function helper(node, arr, index) {
+}
+function helper(node, arr, index) {
     if (node === null) {
-      return false;
+        return false;
     }
     if (index >= arr.length || node.val !== arr[index]) {
-      return false;
+        return false;
     }
     if (node.left === null && node.right === null && index === arr.length - 1) {
-      return true;
+        return true;
     }
     return helper(node.left, arr, index + 1) || helper(node.right, arr, index + 1);
-  }
-  
+}
 
-  //https://leetcode.com/problems/binary-tree-paths/description/
-  function binaryTreePaths(root) {
+
+//https://leetcode.com/problems/binary-tree-paths/description/
+function binaryTreePaths(root) {
     const paths = [];
-  
+
     // Helper function to perform DFS and collect paths
     function dfs(node, path) {
-      if (!node) return;
-  
-      // Append the current node's value to the path
-      path += node.val;
-  
-      // If it's a leaf node, add the path to the results
-      if (!node.left && !node.right) {
-        paths.push(path);
-      } else {
-        // Continue to traverse the tree
-        if (node.left) {
-          dfs(node.left, path + '->');
+        if (!node) return;
+
+        // Append the current node's value to the path
+        path += node.val;
+
+        // If it's a leaf node, add the path to the results
+        if (!node.left && !node.right) {
+            paths.push(path);
+        } else {
+            // Continue to traverse the tree
+            if (node.left) {
+                dfs(node.left, path + '->');
+            }
+            if (node.right) {
+                dfs(node.right, path + '->');
+            }
         }
-        if (node.right) {
-          dfs(node.right, path + '->');
-        }
-      }
     }
-  
+
     dfs(root, '');
     return paths;
-  }
-  
+}
