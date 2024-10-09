@@ -306,3 +306,99 @@ function binaryTreePaths(root) {
     dfs(root, '');
     return paths;
 }
+
+
+// https://leetcode.com/problems/minimum-depth-of-binary-tree/
+var minDepth = function (root) {
+    if (root === null)
+        return 0;
+
+    function depth(root) {
+        if (root === null)
+            return 0;
+
+        if (root.left === null) {
+            return depth(root.right);
+        }
+
+        if (root.right === null) {
+            return depth(root.left);
+        }
+
+        let left = depth(root.left) + 1
+        let right = depth(root.right) + 1
+
+        return (Math.min(left, right) + 1)
+    }
+    return depth(root);
+
+};
+
+
+//https://leetcode.com/problems/sum-of-left-leaves/
+var sumOfLeftLeaves = function (root) {
+    if (root === null) return 0;
+    let l = 0;
+
+    function sumLeft(node) {
+        if (node === null) return;
+
+        // Check if the left child is a leaf
+        if (node.left && node.left.left === null && node.left.right === null) {
+            l += node.left.val; // Add the value of the left leaf
+        }
+
+        // Recur for both children
+        sumLeft(node.left);
+        sumLeft(node.right);
+    }
+
+    sumLeft(root);
+    return l;
+};
+
+//My Sol almost 90% correct
+var sumOfLeftLeaves = function (root) {
+    if (root === null)
+        return 0;
+    let l = 0;
+    function sumLeft(root) {
+        if (root === null)
+            return 0
+        if (root.left === null && root.right === null) {
+            return root.val;
+        }
+        l = l + sumLeft(root.left)
+        sumLeft(root.right)
+    }
+    sumLeft(root)
+    return l;
+};
+
+
+//https://leetcode.com/problems/binary-tree-paths/
+var binaryTreePaths = function (root) {
+    if (root === null)
+        return [];
+
+    let ans = [];
+
+    function Allpath(root, path) {
+        if (root === null)
+            return;
+
+        path += root.val
+
+        if (root.left === null && root.right === null) {
+            ans.push(path)
+        } else {
+            path += '->'
+            Allpath(root.left, path)
+            Allpath(root.right, path)
+        }
+    }
+
+    Allpath(root, "");
+    return ans;
+
+};

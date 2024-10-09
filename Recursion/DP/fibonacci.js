@@ -1,4 +1,5 @@
-// Top Down
+// Top Down (memoization)
+// T - O(N) and S - O(N)
 function fibonacci(n, dp = []) {
     if (n <= 1) return n;
     
@@ -18,7 +19,8 @@ const n = 3;
 console.log(fibonacci(n)); // Output: 5
 
 //----------------------------------------------------------
-//Bottom UP
+//Bottom UP - Tabulation
+// T - O(N) and S - O(N)
 function fibonacci(n) {
     if (n <= 1) return n;
 
@@ -39,9 +41,9 @@ function fibonacci(n) {
 const m = 5;
 console.log(fibonacci(m)); // Output: 5
 
-
-//-------------------------------------------------------
+//-----------------------------------------------------------
 //space optimization in tabulation
+//T - O(N) and S - O(1)
 function fibonacci(n) {
     if (n <= 1) return n; // Handle base cases directly
 
@@ -60,5 +62,7 @@ function fibonacci(n) {
 // Example usage:
 const k = 5;
 console.log(fibonacci(k)); // Output: 5
+
+
 
 
