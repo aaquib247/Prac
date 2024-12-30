@@ -2,10 +2,10 @@ class Stream1 {
     constructor() {}
 
     main() {
-        this.skip("", "bacapplcdah");
-        console.log(this.skipString("bacapplcdah"));
-        console.log(this.skipApple("bacapplcdah"));
-        console.log(this.skipAppNotApple("bacapplcdah"));
+        this.skip("", "bacapplecdah");
+        console.log(this.skipString("bacapplecdah"));
+        console.log(this.skipApple("bacapplecdah"));
+        console.log(this.skipAppNotApple("bacapplecdah"));
     }
 
     skip(p, up) {

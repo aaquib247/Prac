@@ -153,8 +153,7 @@ function solveUtil(ind, height, dp, k) {
   const dp = Array(n).fill(-1); // Initialize a memoization array for the main function
   console.log(solve(n, height, k)); // Print the result of the solve function
 
-  //Tabulation
-  
+//Tabulation
 // Define the solveUtil function to calculate the minimum steps required
 function solveUtil(n, height, dp, k) {
     // Initialize the first element in dp to 0

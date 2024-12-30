@@ -23,6 +23,20 @@ class Find {
         return arr[index] === target || this.find(arr, target, index + 1);
     }
 
+    // Same as above
+    // static find(arr, target, index) {
+    //     if (arr[index] === target) {
+    //         return true;
+    //     }
+    
+    //     if (index === arr.length) {
+    //         return false;
+    //     }
+        
+    //     return this.find(arr, target, index + 1);
+    // }
+    
+
     static findIndex(arr, target, index) {
         if (index === arr.length) {
             return -1;

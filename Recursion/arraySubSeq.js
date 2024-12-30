@@ -1,23 +1,23 @@
 //subsequence with a sum k (2 in below case :: output is [1,1] and [2])
 
-// function sum(p, up, s) {
-//     if (up.length === 0) {
-//         if (s === 2) {
-//             console.log(p);
-//             return;
-//         }
-//         else
-//             return;
-//     }
-//     let ch = up[0];
-//     add = add + ch;
-//     sum(p.concat([ch]), up.slice(1), add );
+function sum(p, up, s) {
+    if (up.length === 0) {
+        if (s === 2) {
+            console.log(p);
+            return;
+        }
+        else
+            return;
+    }
+    let ch = up[0];
+    add = add + ch;
+    sum(p.concat([ch]), up.slice(1), add );
 
-//     add = add - ch;
-//     sum(p, up.slice(1), add);
-// }
-// let add = 0;
-// sum([], [1, 2, 1]);
+    add = add - ch;
+    sum(p, up.slice(1), add);
+}
+let add = 0;
+sum([], [1, 2, 1]);
 
 //subsequence with a sum k but print only one  (2 in below case :: output is [1,1] and not [2])
 

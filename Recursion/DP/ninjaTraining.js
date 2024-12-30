@@ -41,7 +41,7 @@ console.log(matrixDistance(n,points))
 // declare a dp array with values -1/undefined or null
 // if found then return 
 // return statement
-
+// TC - O(N*4)*3 and SC - O(N)(days)+O(N*4)
 var matrixDistance = function (n, points) {
     let dp = Array.from({ length: n }, () => new Array(4).fill(-1));
     function f(days, last) {
@@ -85,6 +85,7 @@ console.log(matrixDistance(m,point))
 
 
 // Tabulation
+// TC - O(N*4)*3 and SC - O(N*4)
 function ninjaTraining(n, points) {
     // Create a 2D array 'dp' with dimensions (n x 4) and initialize it with 0
     let dp = new Array(n);

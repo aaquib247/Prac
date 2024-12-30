@@ -63,21 +63,46 @@ var climbStairs = function(n) {
 };
 
 //Memoization
-var climbStairs = function(n) {
-    const memo = {}; // Cache to store results of subproblems
+function climbStairs(n, memo = {}) {
+    // Base cases
+    if (n === 0 || n === 1) {
+        return 1;
+    }
 
-    function climb(n) {
-        if (n in memo) return memo[n]; // Return cached result if available
-        if (n === 0) return 1; // One way to stay on the ground
-        if (n === 1) return 1; // One way to reach the first step
-
-        // Calculate the number of ways to climb from the current step
-        memo[n] = climb(n - 1) + climb(n - 2);
+    // Check if the result is already computed
+    if (n in memo) {
         return memo[n];
     }
 
-    return climb(n); // Start climbing from n
-};
+    // Recursively compute and store the result in memo
+    memo[n] = climbStairs(n - 1, memo) + climbStairs(n - 2, memo);
 
-// Example usage
-console.log(climbStairs(5)); // Output: 8
+    // Return the computed value
+    return memo[n];
+}
+
+// Example usage:
+let n = 5;
+let result = climbStairs(n);
+console.log(result);  // Output: 8
+
+
+//tabulation and then space optimization
+// TC - O(N) and SC - O(n)
+var climbStairs = function(n) {
+    if (n === 0) return 1; // One way to stay on the ground
+    if (n === 1) return 1; // One way to climb one stair
+
+    // Create an array to store the number of ways to reach each step
+    let prev = 1
+    let prev2 = 1
+
+    // Fill the dp array
+    for (let i = 2; i <= n; i++) {
+       let curr =  prev + prev2; // The number of ways to reach step i
+       prev2 = prev;
+       prev = curr;
+    }
+
+    return prev; // The result is in dp[n]
+};
