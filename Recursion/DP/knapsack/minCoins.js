@@ -1,5 +1,6 @@
 //https://leetcode.com/problems/coin-change/
 //TC - >>>>>>>>>> O(2^N) line 15 and SC - >>>>>>O(N)
+//Min number of coins to make the target
 var coinChange = function (coins, amount) {
     function findMin(i, target) {
         if (i === 0) {
@@ -96,6 +97,97 @@ function main() {
     
     // Call the minimumElements function and print the result
     console.log("The minimum number of elements required to form the target sum is " + minimumElements(arr, T));
+}
+
+// Call the main function to start the program
+main();
+
+//Coin Change 2 is almost a similar problem
+//https://takeuforward.org/data-structure/coin-change-2-dp-22/
+
+function countWaysToMakeChangeUtil(arr, ind, T, dp) {
+    // Base case: If we have reached the first coin in the array
+    if (ind === 0) {
+        // Check if 'T' is divisible by the coin value
+        return (T % arr[0] === 0) ? 1 : 0;
+    }
+
+    // If the result for this combination of 'ind' and 'T' has already been calculated, return it
+    if (dp[ind][T] !== -1)
+        return dp[ind][T];
+
+    // Initialize variables to store results
+    let notTaken = countWaysToMakeChangeUtil(arr, ind - 1, T, dp);
+
+    let taken = 0;
+    if (arr[ind] <= T)
+        taken = countWaysToMakeChangeUtil(arr, ind, T - arr[ind], dp);
+
+    // Store and return the result
+    return dp[ind][T] = notTaken + taken;
+}
+
+// Define a function to count the total number of ways to make change for 'T'
+function countWaysToMakeChange(arr, n, T) {
+    // Create a 2D array 'dp' to store dynamic programming results, initialized with -1
+    const dp = Array.from({ length: n }, () => Array(T + 1).fill(-1));
+    
+    // Call the recursive utility function to calculate the result
+    return countWaysToMakeChangeUtil(arr, n - 1, T, dp);
+}
+
+// Main function
+function main() {
+    const arr = [1, 2, 3];
+    const target = 4;
+    const n = arr.length;
+
+    // Call the countWaysToMakeChange function and print the result
+    console.log("The total number of ways is " + countWaysToMakeChange(arr, n, target));
+}
+
+// Call the main function to start the program
+main();
+
+//Tab
+
+function countWaysToMakeChange(arr, n, T) {
+    // Create a 2D array 'dp' to store dynamic programming results, initialized with 0
+    const dp = Array.from({ length: n }, () => Array(T + 1).fill(0));
+    
+    // Initializing the base condition for the first coin in the array
+    for (let i = 0; i <= T; i++) {
+        if (i % arr[0] === 0)
+            dp[0][i] = 1;
+        // Else condition is automatically fulfilled,
+        // as dp array is initialized to zero
+    }
+    
+    // Populating the dp array using nested loops
+    for (let ind = 1; ind < n; ind++) {
+        for (let target = 0; target <= T; target++) {
+            const notTaken = dp[ind - 1][target];
+            
+            let taken = 0;
+            if (arr[ind] <= target)
+                taken = dp[ind][target - arr[ind]];
+                
+            dp[ind][target] = notTaken + taken;
+        }
+    }
+    
+    // The result is stored in the bottom-right cell of the dp array
+    return dp[n - 1][T];
+}
+
+// Main function
+function main() {
+    const arr = [1, 2, 3];
+    const target = 4;
+    const n = arr.length;
+
+    // Call the countWaysToMakeChange function and print the result
+    console.log("The total number of ways is " + countWaysToMakeChange(arr, n, target));
 }
 
 // Call the main function to start the program
