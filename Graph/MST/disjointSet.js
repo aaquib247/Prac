@@ -1,13 +1,13 @@
 class DisjointSet {
-    constructor(size) {
+    constructor(n) {
         // Initialize parent array where each node is its own parent
         this.parent = [];
-        for (let i = 0; i < size; i++) {
+        for (let i = 0; i < n; i++) {
             this.parent[i] = i;
         }
 
         // Initialize rank array to keep track of the tree depth
-        this.rank = Array(size).fill(0);
+        this.size = Array(n).fill(1);
     }
 
     // Find the root of the set containing 'x' with path compression
@@ -19,19 +19,18 @@ class DisjointSet {
     }
 
     // Union the sets containing 'x' and 'y' using union by rank
-    union(x, y) {
-        const rootX = this.find(x);
-        const rootY = this.find(y);
+    unionBySize(x, y) {
+        const u = this.find(x);
+        const v = this.find(y);
 
-        if (rootX !== rootY) {
-            if (this.rank[rootX] > this.rank[rootY]) {
-                this.parent[rootY] = rootX;
-            } else if (this.rank[rootX] < this.rank[rootY]) {
-                this.parent[rootX] = rootY;
-            } else {
-                this.parent[rootY] = rootX;
-                this.rank[rootX] += 1; // Increase rank if both trees have the same rank
-            }
+        if (u === v) return;
+
+        if (this.size[u] < this.size[v]) {
+            this.parent[u] = v;
+            this.size[v] += this.size[u]
+        } else {
+            this.parent[v] = u;
+            this.size[u] += this.size[v]
         }
     }
 
@@ -45,16 +44,16 @@ class DisjointSet {
 const ds = new DisjointSet(10);
 
 // Union some sets
-ds.union(1, 2);
-ds.union(2, 3);
-ds.union(4, 5);
+ds.unionBySize(1, 2);
+ds.unionBySize(2, 3);
+ds.unionBySize(4, 5);
 
 // Check if elements are connected
 console.log(ds.connected(1, 3)); // Output: true (1 and 3 are in the same set)
 console.log(ds.connected(1, 4)); // Output: false (1 and 4 are in different sets)
 
 // Union more sets
-ds.union(3, 4);
+ds.unionBySize(3, 4);
 
 // Check again
 console.log(ds.connected(1, 4)); // Output: true (1 and 4 are now in the same set)
