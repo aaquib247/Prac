@@ -1,3 +1,6 @@
+//Also checks of the graph is connected or not.
+//TC is Constant.
+
 class DisjointSet {
     constructor(n) {
         // Initialize parent array where each node is its own parent
