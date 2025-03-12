@@ -1,3 +1,6 @@
+// Time Complexity (TC): O(len), where len is the number of operations in operators.
+// Space Complexity (SC): O(n * m), where n and m are the dimensions of the grid.
+
 class Disjoint {
     constructor(n) {
         this.parent = new Array(n + 1).fill(0).map((_, index) => index);
@@ -94,3 +97,23 @@ let solution = new Solution();
 let result = solution.numOfIslands(n, m, operators);
 
 console.log(result.join(' '));  // Output the result
+
+// The algorithm steps are as follows:
+
+// Initial Configuration:
+// Visited array: This 2D array should be initialized with 0.
+// Counter variable: This variable will also be initialized with 0.
+// Answer array: After performing the algorithm, this array will store the results after performing the queries.
+
+// First, we will iterate over all the queries selecting each at a time.
+// Now, we can get the row and the column of the cell given in that query.
+// Then, we will check that cell in the visited array, if the cell is previously visited or not. 
+// If the cell is previously visited, we will just take the current count into our account storing that count value in our answer array 
+// and we will move on to the next query.
+// Otherwise, we will mark the cell as visited in the visited array and increase the value of the counter variable by 1.
+// Now, it’s time to connect the adjacent islands properly. For that, we will check all four adjacent cells of the current cell. 
+// If any island is found, we will first check if they(the current cell and the adjacent cell that contains an island) are already connected or not using the findUPar() method.
+// For checking, we will first convert the indices of the current cell and the adjacent cell into the numbers using the specified formula. Then we will check their ultimate parents.
+// If the ultimate parents are different, we will decrease the counter value by 1 and perform the union(either unionBySize() or unionByRank()) between those two numbers that represent the cells.
+// Similarly, checking all four sides and making the required changes in the counter variable, we will put the counter value into our answer array.
+// After performing step 2 for all the queries, we will get our final answer array containing the results for all the queries.
