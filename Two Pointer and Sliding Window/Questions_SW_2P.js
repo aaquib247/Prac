@@ -227,8 +227,33 @@ var characterReplacement = function (s, k) {
     return maxLength;
 };
 
+//OptimalSolution
+//Idea is to do min number of changes. Till r, check the length - max and if its greater than k , we need to shrink
+var characterReplacement = function (s, k) {
+
+    let l = 0;
+    let r = 0;
+    let max = 0;
+    let freq = {};
+    let maxLength = 0;
+
+    for (r = 0; r < s.length; r++) {
+        freq[s[r]] = (freq[s[r]] || 0) + 1;
+        max = Math.max(max, freq[s[r]]);
+
+        if ((r - l + 1) - max > k) {
+            freq[s[l]] = freq[s[l]] - 1;
+            l++;
+        }
+
+        maxLength = Math.max(maxLength, r - l + 1)
+    }
+
+    return maxLength;
+
+};
+
 //https://leetcode.com/problems/binary-subarrays-with-sum/
-//https://leetcode.com/problems/count-number-of-nice-subarrays/description/ - same
 function numSubarraysWithSum(nums, goal) {
     let count = 0;
     let sum = 0;
@@ -261,6 +286,36 @@ function numSubarraysWithSum(nums, goal) {
 const nums = [1, 0, 1, 0, 1];
 const goal = 2;
 console.log(numSubarraysWithSum(nums, goal)); // Output: 4
+
+//https://leetcode.com/problems/count-number-of-nice-subarrays/description/ - same way as above or 
+// without map it can be implementted like the below where we make space complex as O(1)
+var numberOfSubarrays = function (nums, k) {
+    let res = test(nums, k) - test(nums, k - 1)
+    return res;
+};
+
+function test(nums, k) {
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[i] % 2 === 0)
+            nums[i] = 0;
+        else
+            nums[i] = 1
+    }
+    let sum = 0; count = 0;
+    let r = 0, l = 0
+    for (r = 0; r < nums.length; r++) {
+        sum += nums[r]
+
+        while (sum > k) {
+            sum = sum - nums[l]
+            l = l + 1
+        }
+        count += r - l + 1;
+    }
+
+    return count;
+
+}
 
 //Subarray with k different integers
 function subarraysWithKDistinct(nums, k) {
