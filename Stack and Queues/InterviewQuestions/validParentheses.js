@@ -1,32 +1,43 @@
+// function isValid(s) {
+//     const stack = [];
+//     for (const it of s) {
+//         if (it === '(' || it === '[' || it === '{') {
+//             stack.push(it);
+//         } else {
+//             if (stack.length === 0) return false;
+//             const ch = stack.pop();
+//             if ((it === ')' && ch === '(') || (it === ']' && ch === '[') || (it === '}' && ch === '{')) {
+//                 continue;
+//             } else {
+//                 return false;
+//             }
+//         }
+//     }
+//     return stack.length === 0;
+// }
+
+// TC - O(N) and SC - O(N)
 function isValid(s) {
     const stack = [];
-
-    for (const ch of s) {
-        if (ch === '(' || ch === '{' || ch === '[') {
-            stack.push(ch);
-        } else {
-            if (ch === ')') {
-                if (stack.length === 0 || stack.pop() !== '(') {
-                    return false;
-                }
-            } else if (ch === '}') {
-                if (stack.length === 0 || stack.pop() !== '{') {
-                    return false;
-                }
-            } else if (ch === ']') {
-                if (stack.length === 0 || stack.pop() !== '[') {
-                    return false;
-                }
-            }
+    for (let i = 0; i < s.length; i++) {
+        let ch = s[i];
+        if (ch === '(' || ch === '[' || ch === '{')
+            stack.push(ch)
+        else {
+            if (stack.length === 0) return false;
+            let t = stack.pop()
+            if ((t === '(' && ch === ')') || (t === '[' && ch === ']') || (t === '{' && ch === '}'))
+                continue;
+            else
+                false;
         }
     }
-
     return stack.length === 0;
 }
 
-// Example usage:
-console.log(isValid("()"));         // Output: true
-console.log(isValid("()[]{}"));     // Output: true
-console.log(isValid("(]"));         // Output: false
-console.log(isValid("([)]"));       // Output: false
-console.log(isValid("{[]}"));       // Output: true
+const s = "()[{}()]";
+if (isValid(s)) {
+    console.log("True");
+} else {
+    console.log("False");
+}
