@@ -3,8 +3,8 @@ class MinHeap {
         this.heap = [];
     }
 
-    push(element) {  // element is [num, freq]
-        this.heap.push(element);
+    push(val) {
+        this.heap.push(val);
         this.bubbleUp(this.heap.length - 1);
     }
 
@@ -21,7 +21,7 @@ class MinHeap {
     bubbleUp(index) {
         while (index > 0) {
             const parent = Math.floor((index - 1) / 2);
-            if (this.heap[parent][1] <= this.heap[index][1]) break;
+            if (this.heap[parent] <= this.heap[index]) break;
             [this.heap[parent], this.heap[index]] = [this.heap[index], this.heap[parent]];
             index = parent;
         }
@@ -33,10 +33,10 @@ class MinHeap {
             const right = 2 * index + 2;
             let smallest = index;
 
-            if (left < this.heap.length && this.heap[left][1] < this.heap[smallest][1]) {
+            if (left < this.heap.length && this.heap[left] < this.heap[smallest]) {
                 smallest = left;
             }
-            if (right < this.heap.length && this.heap[right][1] < this.heap[smallest][1]) {
+            if (right < this.heap.length && this.heap[right] < this.heap[smallest]) {
                 smallest = right;
             }
             if (smallest === index) break;
@@ -48,35 +48,30 @@ class MinHeap {
     size() {
         return this.heap.length;
     }
-
-    peek() {
-        return this.heap[0];
-    }
 }
 
-function topKFrequent(nums, k) {
-    // Count frequencies
-    const frequencyMap = {};
-    for (const num of nums) {
-        frequencyMap[num] = (frequencyMap[num] || 0) + 1;
-    }
-    
-    // Create min-heap and maintain top k elements
+function minCostToConnectRopes(ropes) {
     const minHeap = new MinHeap();
-    for (const [num, freq] of Object.entries(frequencyMap)) {
-        minHeap.push([Number(num), freq]);
-        if (minHeap.size() > k) {
-            minHeap.pop(); // Remove the least frequent
-        }
+    let totalCost = 0;
+
+    // Add all ropes to the min-heap
+    for (const rope of ropes) {
+        minHeap.push(rope);
     }
-    
-    // Extract and return results (most frequent first)
-    const result = [];
-    while (minHeap.size() > 0) {
-        result.push(minHeap.pop()[0]);
+
+    // just take top two and add in totalSum and add sum of top 2 in minHeap;
+    // Combine ropes until only one remains
+    while (minHeap.size() >= 2) {
+        const first = minHeap.pop();
+        const second = minHeap.pop();
+        const combined = first + second;
+        totalCost += combined;
+        minHeap.push(combined);
     }
-    return result.reverse();
+
+    return totalCost;
 }
 
-console.log(topKFrequent([1,1,1,2,2,3], 2)); // Output: [1, 2]
-console.log(topKFrequent([1], 1)); // Output: [1]
+// Example usage:
+console.log(minCostToConnectRopes([4, 3, 2, 6])); // Output: 29
+console.log(minCostToConnectRopes([1, 2, 3, 4, 5])); // Output: 33

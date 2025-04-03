@@ -59,3 +59,95 @@ while (current) {
   current = current.next;
 }
 // Output: 1 → 1 → 2 → 3 → 4 → 4 → 5 → 6
+
+
+//full
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode[]} lists
+ * @return {ListNode}
+ */
+var mergeKLists = function(lists) {
+  const minHeap = new MinHeap();
+  const dummy = new ListNode(0);
+  let curr = dummy;
+  
+  // Insert the first node of each list into the min-heap
+  for(let list of lists){
+      if(list) {
+          minHeap.insert(list);
+      }
+  }
+
+  while(minHeap.size() > 0){
+      const smallest = minHeap.remove();
+      curr.next = smallest;
+      curr = curr.next;
+      
+      if(smallest.next){
+          minHeap.insert(smallest.next);
+      }
+  }
+
+  return dummy.next;
+};
+
+class MinHeap {
+  constructor() {
+      this.heap = [];
+  }
+
+  insert(node) {
+      this.heap.push(node);
+      this.bubbleUp(this.heap.length - 1);
+  }
+
+  remove() {
+      if (this.heap.length === 0) return null;
+      const min = this.heap[0];
+      const last = this.heap.pop();
+      if (this.heap.length > 0) {
+          this.heap[0] = last;
+          this.sinkDown(0);
+      }
+      return min;
+  }
+
+  bubbleUp(index) {
+      while (index > 0) {
+          const parentIndex = Math.floor((index - 1) / 2);
+          if (this.heap[parentIndex].val <= this.heap[index].val) break;
+          [this.heap[parentIndex], this.heap[index]] = [this.heap[index], this.heap[parentIndex]];
+          index = parentIndex;
+      }
+  }
+
+  sinkDown(index) {
+      const length = this.heap.length;
+      while (true) {
+          let left = 2 * index + 1;
+          let right = 2 * index + 2;
+          let smallest = index;
+          
+          if (left < length && this.heap[left].val < this.heap[smallest].val) {
+              smallest = left;
+          }
+          if (right < length && this.heap[right].val < this.heap[smallest].val) {
+              smallest = right;
+          }
+          if (smallest === index) break;
+          [this.heap[index], this.heap[smallest]] = [this.heap[smallest], this.heap[index]];
+          index = smallest;
+      }
+  }
+
+  size() {
+      return this.heap.length;
+  }
+}
