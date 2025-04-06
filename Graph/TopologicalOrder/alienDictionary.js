@@ -49,7 +49,7 @@ function findOrder(N, K, dict) {
 
     // Check if we have a valid topological order
     if (order.length === K) {
-        return 1; // Order is valid
+        return order; // Order is valid
     } else {
         return 0; // No valid order
     }
