@@ -10,62 +10,55 @@ function reverseKGroup(head, k) {
         return head;
     }
 
+    // Create a dummy node to handle edge cases when head changes
+    let dummy = new ListNode(0);
+    dummy.next = head;
+
+    let prevTail = dummy; // The node before the group that is currently being reversed
     let current = head;
-    let prev = null;
 
-    let length = getLength(head);
-    let count = Math.floor(length / k);
-    while (count > 0) {
-        let last = prev;
-        let newEnd = current;
+    while (current !== null) {
+        // Check if there are at least k nodes left in the list
+        let count = 0;
+        let temp = current;
+        while (temp !== null && count < k) {
+            temp = temp.next;
+            count++;
+        }
 
-        let next = current ? current.next : null;
-        for (let i = 0; current !== null && i < k; i++) {
+        // If there are fewer than k nodes left, no reversal is done for this group
+        if (count < k) {
+            break;
+        }
+
+        // Reverse k nodes
+        let prev = null;
+        let next = null;
+        let lastNodeOfPrevPart = prevTail;
+        let lastNodeOfSubList = current;
+
+        // Reverse the k nodes
+        for (let i = 0; i < k; i++) {
+            next = current.next;
             current.next = prev;
             prev = current;
             current = next;
-            next = next ? next.next : null;
         }
 
-        if (last !== null) {
-            last.next = prev;
-        } else {
-            head = prev;
-        }
+        // Connect with the previous part
+        lastNodeOfPrevPart.next = prev;
 
-        newEnd.next = current;
+        // Connect the last node of the reversed group to the next part
+        lastNodeOfSubList.next = current;
 
-        prev = newEnd;
-        count--;
+        // Move the prevTail pointer to the last node of the reversed group
+        prevTail = lastNodeOfSubList;
     }
-    return head;
+
+    return dummy.next; // Return the new head
 }
 
-function getLength(head) {
-    let node = head;
-    let length = 0;
-    while (node !== null) {
-        length++;
-        node = node.next;
-    }
-    return length;
-}
-
-// Example usage
-function main() {
-    // Create a linked list: 1 -> 2 -> 3 -> 4 -> 5 -> null
-    let head = new ListNode(1);
-    head.next = new ListNode(2);
-    head.next.next = new ListNode(3);
-    head.next.next.next = new ListNode(4);
-    head.next.next.next.next = new ListNode(5);
-
-    let k = 2;
-    let reversedKGroup = reverseKGroup(head, k);
-    console.log("Reversed in groups of " + k + ": ");
-    printList(reversedKGroup);
-}
-
+// Helper function to print the linked list
 function printList(head) {
     let current = head;
     let result = "";
@@ -75,6 +68,22 @@ function printList(head) {
     }
     result += "null";
     console.log(result);
+}
+
+// Example usage
+function main() {
+    // Create a linked list: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> null
+    let head = new ListNode(1);
+    head.next = new ListNode(2);
+    head.next.next = new ListNode(3);
+    head.next.next.next = new ListNode(4);
+    head.next.next.next.next = new ListNode(5);
+    head.next.next.next.next.next = new ListNode(6);
+
+    let k = 2;
+    let reversedKGroup = reverseKGroup(head, k);
+    console.log("Reversed in groups of " + k + ": ");
+    printList(reversedKGroup);
 }
 
 main();

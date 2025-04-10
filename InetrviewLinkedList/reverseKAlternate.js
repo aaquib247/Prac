@@ -10,37 +10,54 @@ function reverseAlternateKGroup(head, k) {
         return head;
     }
 
+    // Create a dummy node that acts as the previous node to head
+    let dummy = new ListNode(0);
+    dummy.next = head;
+    let prevTail = dummy;  // The previous node after reversing
+
     let current = head;
-    let prev = null;
 
     while (current !== null) {
-        let last = prev;
+        let last = prevTail;
         let newEnd = current;
 
-        // reverse between left and right
-        let next = current ? current.next : null;
-        for (let i = 0; current !== null && i < k; i++) {
-            current.next = prev;
-            prev = current;
-            current = next;
-            next = next ? next.next : null;
+        // Reverse the first K nodes in this group
+        let count = 0;
+        let prev = null;
+        while (current !== null && count < k) {
+            let nextNode = current.next;  // Save the next node
+            current.next = prev;          // Reverse the current node
+            prev = current;               // Move prev to current
+            current = nextNode;           // Move to the next node
+            count++;
         }
 
-        if (last !== null) {
-            last.next = prev;
-        } else {
-            head = prev;
-        }
+        // After reversing, connect the previous part (last) to the reversed part (prev)
+        last.next = prev;
 
+        // Connect the new end of the reversed group to the next part
         newEnd.next = current;
 
-        // skip the next k nodes
+        // Skip the next K nodes
         for (let i = 0; current !== null && i < k; i++) {
-            prev = current;
+            prevTail = current;
             current = current.next;
         }
     }
-    return head;
+
+    return dummy.next;  // Return the head of the modified list
+}
+
+// Helper function to print the linked list
+function printList(head) {
+    let current = head;
+    let result = "";
+    while (current !== null) {
+        result += current.val + " -> ";
+        current = current.next;
+    }
+    result += "null";
+    console.log(result);
 }
 
 // Example usage
@@ -53,21 +70,10 @@ function main() {
     head.next.next.next.next = new ListNode(5);
     head.next.next.next.next.next = new ListNode(6);
 
-    let k = 3;
+    let k = 2;
     let reversedAlternateKGroup = reverseAlternateKGroup(head, k);
     console.log("Reversed alternate in groups of " + k + ": ");
     printList(reversedAlternateKGroup);
-}
-
-function printList(head) {
-    let current = head;
-    let result = "";
-    while (current !== null) {
-        result += current.val + " -> ";
-        current = current.next;
-    }
-    result += "null";
-    console.log(result);
 }
 
 main();
