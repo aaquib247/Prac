@@ -47,83 +47,87 @@ function shortestSupersequenceLength(s1, s2) {
 function main() {
     const s1 = "brute";
     const s2 = "groot";
+
+    const s3 = "abcde";
+    const s4 = "ace";
     
     const result = shortestSupersequenceLength(s1, s2);
-    console.log("The length of the Shortest Supersequence is: " + result);
+    const result2 = shortestSupersequenceLength(s3, s4);
+    console.log("The length of the Shortest Supersequence is: " + result2);
 }
 
 // Run the main function
 main();
 
 
-//----------Print the shortest common supersequence-------------
-function longestCommonSubsequenceTab(s1, s2) {
-    const n = s1.length;
-    const m = s2.length;
+// //----------Print the shortest common supersequence-------------
+// function longestCommonSubsequenceTab(s1, s2) {
+//     const n = s1.length;
+//     const m = s2.length;
 
-    // Create a DP table for storing LCS values
-    const dp = Array.from({ length: n + 1 }, () => Array(m + 1).fill(0));
+//     // Create a DP table for storing LCS values
+//     const dp = Array.from({ length: n + 1 }, () => Array(m + 1).fill(0));
 
-    // Fill the DP table for LCS calculation
-    for (let i = 1; i <= n; i++) {
-        for (let j = 1; j <= m; j++) {
-            if (s1[i - 1] === s2[j - 1]) {
-                dp[i][j] = dp[i - 1][j - 1] + 1;
-            } else {
-                dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
-            }
-        }
-    }
+//     // Fill the DP table for LCS calculation
+//     for (let i = 1; i <= n; i++) {
+//         for (let j = 1; j <= m; j++) {
+//             if (s1[i - 1] === s2[j - 1]) {
+//                 dp[i][j] = dp[i - 1][j - 1] + 1;
+//             } else {
+//                 dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+//             }
+//         }
+//     }
 
-    return dp;
-}
+//     return dp;
+// }
 
-function shortestCommonSupersequence(s1, s2) {
-    const n = s1.length;
-    const m = s2.length;
+// function shortestCommonSupersequence(s1, s2) {
+//     const n = s1.length;
+//     const m = s2.length;
 
-    // Step 1: Compute the LCS table using tabulation
-    const dp = longestCommonSubsequenceTab(s1, s2);
+//     // Step 1: Compute the LCS table using tabulation
+//     const dp = longestCommonSubsequenceTab(s1, s2);
 
-    // Step 2: Construct the Shortest Common Supersequence by backtracking
-    let i = n, j = m;
-    let scs = "";
+//     // Step 2: Construct the Shortest Common Supersequence by backtracking
+//     let i = n, j = m;
+//     let scs = "";
 
-    while (i > 0 && j > 0) {
-        if (s1[i - 1] === s2[j - 1]) {
-            scs = s1[i - 1] + scs;  // If characters match, add to the result
-            i--;
-            j--;
-        } else if (dp[i - 1][j] > dp[i][j - 1]) {
-            scs = s1[i - 1] + scs;  // If LCS from top is greater, add from s1
-            i--;
-        } else {
-            scs = s2[j - 1] + scs;  // If LCS from left is greater, add from s2
-            j--;
-        }
-    }
+//     while (i > 0 && j > 0) {
+//         if (s1[i - 1] === s2[j - 1]) {
+//             scs = s1[i - 1] + scs;  // If characters match, add to the result
+//             i--;
+//             j--;
+//         } else if (dp[i - 1][j] > dp[i][j - 1]) {
+//             scs = s1[i - 1] + scs;  // If LCS from top is greater, add from s1
+//             i--;
+//         } else {
+//             scs = s2[j - 1] + scs;  // If LCS from left is greater, add from s2
+//             j--;
+//         }
+//     }
 
-    // Add remaining characters (if any)
-    while (i > 0) {
-        scs = s1[i - 1] + scs;
-        i--;
-    }
-    while (j > 0) {
-        scs = s2[j - 1] + scs;
-        j--;
-    }
+//     // Add remaining characters (if any)
+//     while (i > 0) {
+//         scs = s1[i - 1] + scs;
+//         i--;
+//     }
+//     while (j > 0) {
+//         scs = s2[j - 1] + scs;
+//         j--;
+//     }
 
-    return scs;
-}
+//     return scs;
+// }
 
-// Main function to test the code
-function main() {
-    const s1 = "brute";
-    const s2 = "groot";
+// // Main function to test the code
+// function main() {
+//     const s1 = "brute";
+//     const s2 = "groot";
     
-    const result = shortestCommonSupersequence(s1, s2);
-    console.log("The Shortest Common Supersequence is: " + result);
-}
+//     const result = shortestCommonSupersequence(s1, s2);
+//     console.log("The Shortest Common Supersequence is: " + result);
+// }
 
-// Run the main function
-main();
+// // Run the main function
+// main();

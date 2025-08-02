@@ -49,8 +49,10 @@ class Solution {
                 count++;
         }
 
-        if (extraEdge >= count - 1)
+        if (extraEdge >= count - 1) {
+            console.log("no of extra edges: " + extraEdge + ", no of components: " + count);
             return count - 1;
+        }
         else
             return -1;
     }
@@ -58,7 +60,7 @@ class Solution {
 
 // Example usage
 const V = 8;
-const edges = [[0, 1], [0, 2], [0,3], [1,2], [2,3],[4,5],[5,6],[7,8]];
+const edges = [[0, 1], [0, 2], [0, 3], [1, 2], [2, 3], [4, 5], [5, 6], [7, 8]];
 
 const ways = Solution.findWay(V, edges);
 console.log("No of Ways to make a Network Connected with existing extra edges: " + ways);

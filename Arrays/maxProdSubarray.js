@@ -37,7 +37,7 @@ function maxProductSubArray(arr) {
     return ans;
 }
 
-let arr = [1, 2, -3, 0, -4, -5];
+let arr = [2,3,-4,2];
 console.log("The maximum product subarray is: " + maxProductSubArray(arr));
 
 
