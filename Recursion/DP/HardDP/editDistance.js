@@ -3,10 +3,12 @@ function editDistance(S1, S2) {
     const m = S2.length;
 
     // Create a 2D array to store dynamic programming values, initialized with -1
-    const dp = new Array(n + 1).fill(null).map(() => new Array(m + 1).fill(-1));
+    const dp = new Array(n).fill(null).map(() => new Array(m).fill(-1));
 
     // Helper function to calculate the minimum edit distance using recursion with memoization
     function editDistanceUtil(i, j) {
+
+        //Min Operation to convert either to another when any becomes empty
         // If the first string is empty, the only option is to insert all characters from the second string
         if (i < 0) return j + 1;
         // If the second string is empty, the only option is to delete all characters from the first string
@@ -28,7 +30,8 @@ function editDistance(S1, S2) {
             editDistanceUtil(i - 1, j - 1), // Replace
             Math.min(
                 editDistanceUtil(i - 1, j),  // Delete
-                editDistanceUtil(i, j - 1)   // Insert
+                editDistanceUtil(i, j - 1)   // Insert - i stays as same place hypothetically as you have added a char ahead to match j.
+                //once that matches j reduces and i stays same
             )
         );
     }
