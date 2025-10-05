@@ -1,3 +1,4 @@
+// 1. Log Levels (Enum Style)
 const LogLevel = {
   DEBUG: 1,
   INFO: 2,
@@ -5,74 +6,76 @@ const LogLevel = {
   ERROR: 4,
 };
 
+// 2. Base LogHandler Class
 class LogHandler {
   constructor(level) {
     this.level = level;
     this.next = null;
   }
-// Chain of Responsibility Pattern for Logging
-// Each handler processes messages of a certain level and passes to the next
+
   setNext(handler) {
     this.next = handler;
     return handler;
   }
 
   handle(level, message) {
-    if (level >= this.level) {
-      // Process the message if this handler's level is sufficient
-      this.process(level, message);
-    }
-    if (this.next) {
+    // Let each handler decide what to do
+    this.process(level, message);
+  }
+
+  process(level, message) {
+    throw "process() must be implemented by subclasses";
+  }
+}
+
+// 3. Console Handler
+class ConsoleHandler extends LogHandler {
+  process(level, message) {
+    if (level === this.level) {
+      console.log(`🖥️ [${this.getLevelName(level)}] ${message}`);
+    } else if (this.next) {
       this.next.handle(level, message);
     }
   }
 
-  process(level, message) {
-    throw "Override in subclass";
+  getLevelName(level) {
+    return Object.keys(LogLevel).find(key => LogLevel[key] === level) || level;
   }
 }
 
-// Define specific handlers for different log levels
-// ConsoleHandler logs to console, FileHandler logs to a file (simulated here)
-class ConsoleHandler extends LogHandler {
-  process(level, message) {
-    console.log(`🖥️ [${level}] ${message}`);
-  }
-}
-
+// 4. Simple File Handler (Simulated)
 class FileHandler extends LogHandler {
   constructor(level) {
     super(level);
-    this.logs = [];
+    this.logs = []; // Simulated file log
   }
 
   process(level, message) {
-    this.logs.push(`[${level}] ${message}`);
+    if (level === this.level) {
+      this.logs.push(`[${this.getLevelName(level)}] ${message}`);
+    } else if (this.next) {
+      this.next.handle(level, message);
+    }
   }
 
   showLogs() {
     console.log("📁 File Logs:");
     this.logs.forEach(log => console.log(log));
   }
+
+  getLevelName(level) {
+    return Object.keys(LogLevel).find(key => LogLevel[key] === level) || level;
+  }
 }
 
-// Logger class using Singleton pattern
-// It manages the chain of handlers and provides logging methods
-// Ensures only one instance exists throughout the application
-// This is useful for centralized logging configuration
-// and consistent logging behavior across the app.
+// 5. Logger (Singleton)
 class Logger {
-  // Hold the single instance
-  static instance;
+  static instance = null;
 
   constructor() {
-    if (Logger.instance) return Logger.instance;
-
-    this.rootHandler = null;       // Start of the chain
-    Logger.instance = this;        // Save this as the only instance
+    this.rootHandler = null;
   }
 
-  // Get the singleton instance
   static getInstance() {
     if (!Logger.instance) {
       Logger.instance = new Logger();
@@ -80,43 +83,40 @@ class Logger {
     return Logger.instance;
   }
 
-  // Set the first handler in the chain
   setHandlerChain(handler) {
     this.rootHandler = handler;
   }
 
-  // Common log function
   log(level, message) {
     if (this.rootHandler) {
       this.rootHandler.handle(level, message);
     }
   }
 
-  // Shortcuts for each log level
   debug(msg) { this.log(LogLevel.DEBUG, msg); }
   info(msg)  { this.log(LogLevel.INFO, msg); }
   warn(msg)  { this.log(LogLevel.WARN, msg); }
   error(msg) { this.log(LogLevel.ERROR, msg); }
 }
 
+// 6. Usage Example
 
 // Create handlers
-const consoleHandler = new ConsoleHandler(LogLevel.INFO);
-const fileHandler = new FileHandler(LogLevel.WARN);
+const debugHandler = new ConsoleHandler(LogLevel.DEBUG);
+const infoHandler = new ConsoleHandler(LogLevel.INFO);
+const errorFileHandler = new FileHandler(LogLevel.ERROR);
 
-// Chain them: Console → File
-consoleHandler.setNext(fileHandler);
+// Set up the chain: DEBUG → INFO → FILE
+debugHandler.setNext(infoHandler).setNext(errorFileHandler);
 
-// Get singleton logger and configure it
+// Set up the Logger
 const logger = Logger.getInstance();
-logger.setHandlerChain(consoleHandler);
+logger.setHandlerChain(debugHandler);
 
 // Log messages
-logger.debug("Debugging...");              // Skipped
-logger.info("App started");               // Console
-logger.warn("Memory warning!");           // Console + File
-logger.error("System failure!");          // Console + File
+logger.debug("Debugging details");
+logger.info("App started");
+logger.error("Something broke!");
 
 // View file logs
-fileHandler.showLogs();
-
+errorFileHandler.showLogs();

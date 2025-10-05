@@ -106,3 +106,50 @@ var climbStairs = function(n) {
 
     return prev; // The result is in dp[n]
 };
+
+
+//FollowUp
+//https://leetcode.com/problems/min-cost-climbing-stairs/
+var minCostClimbingStairs = function (cost) {
+
+    function steps(i) {
+
+        if (i < 0) return 0;
+
+    // Base case: If we're at the first step or second step, return the cost of that step
+        if (i === 0 || i === 1) return cost[i];
+
+        // Recursively calculate the minimum cost to reach step i
+        let one = steps(i - 1) + cost[i];  // Moving from i-1
+        let two = steps(i - 2) + cost[i];  // Moving from i-2
+
+        return Math.min(one, two)
+    }
+
+    return Math.min(steps(cost.length - 1), steps(cost.length - 2))
+
+};
+
+//-----
+var minCostClimbingStairs = function (cost) {
+
+    const dp = new Array(cost.length).fill(-1);
+
+    function steps(i) {
+
+        if (i < 0) return 0;
+
+    // Base case: If we're at the first step or second step, return the cost of that step
+        if (i === 0 || i === 1) return cost[i];
+        if(dp[i] != -1) return dp[i]
+
+        // Recursively calculate the minimum cost to reach step i
+        let one = steps(i - 1) + cost[i];  // Moving from i-1
+        let two = steps(i - 2) + cost[i];  // Moving from i-2
+
+        return dp[i] = Math.min(one, two)
+    }
+
+    return Math.min(steps(cost.length - 1), steps(cost.length - 2))
+
+};

@@ -6,7 +6,7 @@ function divisibleSet(arr) {
 
     const dp = new Array(n).fill(1);
     const hash = new Array(n).fill(0);
-
+ 
     for (let i = 0; i < n; i++) {
         hash[i] = i; // Initialize hash with the current index
         for (let prev = 0; prev < i; prev++) {

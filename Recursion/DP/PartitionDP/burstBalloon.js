@@ -6,13 +6,13 @@ var maxCoins = function(nums) {
     nums.push(1);
 
     // Memoization table
-    const dp = Array.from({ length: n + 2 }, () => Array(n + 2).fill(-1));
+    // const dp = Array.from({ length: n + 2 }, () => Array(n + 2).fill(-1));
 
     function burst(i, j) {
         // No balloons to burst between i and j
         if (i > j) return 0;
 
-        if (dp[i][j] !== -1) return dp[i][j];
+        // if (dp[i][j] !== -1) return dp[i][j];
 
         let maxCoins = 0;
 
@@ -26,7 +26,7 @@ var maxCoins = function(nums) {
             maxCoins = Math.max(maxCoins, coins);
         }
 
-        dp[i][j] = maxCoins;
+        // dp[i][j] = maxCoins;
         return maxCoins;
     }
 
