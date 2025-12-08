@@ -351,3 +351,239 @@ function subarraysWithKDistinct(nums, k) {
 const num = [1, 2, 1, 2, 3];
 const k1 = 2;
 console.log(subarraysWithKDistinct(num, k1)); // Output: 7
+
+
+//1456. Maximum Number of Vowels in a Substring of Given Length
+// Example 1:
+
+// Input: s = "abciiidef", k = 3
+// Output: 3
+// Explanation: The substring "iii" contains 3 vowel letters.
+// Example 2:
+
+// Input: s = "aeiou", k = 2
+// Output: 2
+// Explanation: Any substring of length 2 contains 2 vowels.
+// Example 3:
+
+// Input: s = "leetcode", k = 3
+// Output: 2
+// Explanation: "lee", "eet" and "ode" contain 2 vowels.
+
+var maxVowels = function (s, k) {
+    const vowel = new Set(['a', 'e', 'i', 'o', 'u']);  // Correct set of vowels
+    let l = 0;
+    let count = 0;
+    let max = 0;
+
+    for (let r = 0; r < s.length; r++) {
+        if (vowel.has(s[r])) {
+            count++;
+        }
+
+        if (r - l + 1 > k) {
+            if (vowel.has(s[l])) count--;
+            l++;
+        }
+
+        max = Math.max(max, count);
+    }
+
+    return max;
+};
+
+//Minimum Window Questions -- finding min/shortest window
+
+//leetcode.com/problems/minimum-window-substring/
+function minWindow(s, t) {
+    if (t.length > s.length) return "";
+
+    const need = new Map();
+    for (let c of t) {
+        need.set(c, (need.get(c) || 0) + 1);
+    }
+
+    const window = new Map();
+    let have = 0;
+    let needCount = need.size;
+    let res = [-1, -1];
+    let resLen = Infinity;
+    let left = 0;
+
+    for (let right = 0; right < s.length; right++) {
+        let c = s[right];
+        window.set(c, (window.get(c) || 0) + 1);
+
+        if (need.has(c) && window.get(c) === need.get(c)) {
+            have++;
+        }
+
+        // shrink the window when we have all needed characters
+        while (have === needCount) {
+            // update result
+            if ((right - left + 1) < resLen) {
+                res = [left, right];
+                resLen = right - left + 1;
+            }
+
+            // pop from left
+            let leftChar = s[left];
+            window.set(leftChar, window.get(leftChar) - 1);
+            if (need.has(leftChar) && window.get(leftChar) < need.get(leftChar)) {
+                have--;
+            }
+            left++;
+        }
+    }
+
+    let [start, end] = res;
+    return resLen === Infinity ? "" : s.slice(start, end + 1);
+}
+
+console.log(minWindow("ADOBECODEBANC","ABC"))
+
+//The Substring with All Characters from t (Permutation Problem)
+
+function findAnagrams(s, t) {
+    if (s.length < t.length) return []; // If s is smaller than t, no anagrams are possible
+
+    const result = [];
+    const tFrequency = new Map();
+    const sFrequency = new Map();
+    
+    // Build frequency map for string t
+    for (let char of t) {
+        tFrequency.set(char, (tFrequency.get(char) || 0) + 1);
+    }
+
+    // Initialize the sliding window
+    let left = 0;
+    for (let right = 0; right < s.length; right++) {
+        const rightChar = s[right];
+        // Update frequency map for current window in s
+        sFrequency.set(rightChar, (sFrequency.get(rightChar) || 0) + 1);
+
+        // Shrink the window from the left if the window size exceeds the length of t
+        if (right - left + 1 > t.length) {
+            const leftChar = s[left];
+            sFrequency.set(leftChar, sFrequency.get(leftChar) - 1);
+            if (sFrequency.get(leftChar) === 0) {
+                sFrequency.delete(leftChar);
+            }
+            left++; // Move the left pointer to shrink the window
+        }
+
+        // Check if the current window matches the frequency map of t
+        if (right - left + 1 === t.length && isEqual(sFrequency, tFrequency)) {
+            result.push(s.slice(left, right + 1)); // Found a valid substring, add it to result
+        }
+    }
+
+    return result;
+}
+
+// Helper function to compare two frequency maps
+function isEqual(map1, map2) {
+    if (map1.size !== map2.size) return false;
+    for (let [key, value] of map1) {
+        if (map2.get(key) !== value) return false;
+    }
+    return true;
+}
+
+// Test cases
+// let s = "cbaebabacd", t = "abc";
+// console.log(findAnagrams(s, t));  // ["cba", "bac"]
+
+// let s = "abab", t = "ab";
+// console.log(findAnagrams(s, t));  // ["ab", "ba", "ab"]
+
+//https://leetcode.com/problems/permutation-in-string/description/
+function checkInclusion(s1, s2) {
+    if (s2.length < s1.length) return false;
+
+    const tFrequency = new Map();
+    const sFrequency = new Map();
+
+    for (let char of s1) {
+        tFrequency.set(char, (tFrequency.get(char) || 0) + 1);
+    }
+
+    let left = 0;
+
+    for (let right = 0; right < s2.length; right++) {
+        const rightChar = s2[right];
+        sFrequency.set(rightChar, (sFrequency.get(rightChar) || 0) + 1);
+
+        if (right - left + 1 > s1.length) {
+            const leftChar = s2[left];
+            sFrequency.set(leftChar, sFrequency.get(leftChar) - 1);
+            if (sFrequency.get(leftChar) === 0) {
+                sFrequency.delete(leftChar);
+            }
+            left++;
+        }
+
+        if (right - left + 1 === s1.length && isEqual(sFrequency, tFrequency)) {
+            return true; // Found at least one permutation
+        }
+    }
+
+    return false;
+}
+
+// Helper function (same as before)
+function isEqual(map1, map2) {
+    if (map1.size !== map2.size) return false;
+    for (let [key, value] of map1) {
+        if (map2.get(key) !== value) return false;
+    }
+    return true;
+}
+
+// Test
+console.log(checkInclusion("ab", "eidbaooo"));  // true
+console.log(checkInclusion("ab", "eidboaoo"));  // false
+
+
+
+//https://leetcode.com/problems/sliding-window-maximum/
+function maxSlidingWindow(nums, k) {
+    const n = nums.length;
+    const result = [];
+    const deque = []; // Will store indices
+
+    for (let i = 0; i < n; i++) {
+        // Remove indices that are out of the current window
+        if (deque.length && deque[0] === i - k) {
+            deque.shift();
+        }
+
+        // Remove indices whose corresponding values are less than nums[i]
+        while (deque.length && nums[deque[deque.length - 1]] < nums[i]) {
+            deque.pop();
+        }
+
+        // Add current index to deque
+        deque.push(i);
+
+        // If window has hit size k, add current max to result
+        if (i >= k - 1) {
+            result.push(nums[deque[0]]);
+        }
+    }
+
+    return result;
+}
+
+// Example usage
+// const arr = [4, 0, -1, 3, 5, 3, 6, 8];
+// const k = 3;
+// const ans = maxSlidingWindow(arr, k);
+
+// console.log(`Maximum element in every ${k} window:`);
+// console.log(ans.join("  "));
+
+// Test case
+// let nums = [1,3,-1,-3,5,3,6,7], k = 3;
+// console.log(maxSlidingWindow(nums, k));  // Output: [3, 3, 5, 5, 6, 7]

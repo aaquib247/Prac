@@ -1,52 +1,29 @@
-var cherryPickup = function(grid) {
-    const n = grid.length;
+// This question is similar to Painter's Partition Problem and Allocate books or Book Allocation Problem.
+// Its to split an array into m subarrays such that the largest sum among these subarrays is minimized.
 
-    // 3D DP memoization table
-    const dp = new Array(n).fill().map(() =>
-        new Array(n).fill().map(() =>
-            new Array(n).fill(-1)
-        )
-    );
-
-    function dfs(r1, c1, r2) {
-        let c2 = r1 + c1 - r2;
-
-        // Bounds or thorns
-        if (
-            r1 >= n || c1 >= n || r2 >= n || c2 >= n ||
-            grid[r1][c1] === -1 || grid[r2][c2] === -1
-        ) {
-            return -Infinity;
-        }
-
-        // Reached bottom-right
-        if (r1 === n - 1 && c1 === n - 1) {
-            return grid[r1][c1];
-        }
-
-        // Memoized
-        if (dp[r1][c1][r2] !== -1) {
-            return dp[r1][c1][r2];
-        }
-
-        let result = grid[r1][c1];
-        if (r1 !== r2 || c1 !== c2) {
-            result += grid[r2][c2];
-        }
-
-        // Try all 4 move combinations
-        let temp = Math.max(
-            dfs(r1 + 1, c1, r2 + 1),  // both down
-            dfs(r1, c1 + 1, r2),      // both right
-            dfs(r1 + 1, c1, r2),      // p1 down, p2 right
-            dfs(r1, c1 + 1, r2 + 1)   // p1 right, p2 down
-        );
-
-        result += temp;
-        dp[r1][c1][r2] = result;
-        return result;
+function getValue(nums, k) {
+    let left = 0;
+    let right = 0;
+    for (let i = 0; i < k; i++) {
+        left += nums[i];
     }
 
-    const res = dfs(0, 0, 0);
-    return Math.max(0, res);  // cannot return negative
+    for (let i = k; i < nums.length; i++) {
+        right += nums[i];
+    }
+    return Math.max(left, right);
+}
+
+var splitArray = function (nums) {
+    let ans = Infinity;
+    for (let i = 1; i < nums.length; i++) {
+        ans = Math.min(ans, getValue(nums, i));
+    }
+    return ans;
 };
+
+
+// Example usage:
+console.log(splitArray([7, 2, 5, 10, 8], 2)); // Output: 18
+console.log(splitArray([1, 2, 3, 4, 5], 2)); // Output: 9
+// console.log(splitArray([1,4,4], 3));     // Output: 4   

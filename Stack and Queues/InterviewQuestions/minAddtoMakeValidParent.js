@@ -25,3 +25,22 @@ console.log(minAddToMakeValid("())"));     // Output: 1
 console.log(minAddToMakeValid("((("));     // Output: 3
 console.log(minAddToMakeValid("()"));      // Output: 0
 console.log(minAddToMakeValid("())("));    // Output: 2
+
+var minAddToMakeValid = function (s) {
+
+    n = s.length;
+    let st = []
+    for (let i = 0; i < n; i++) {
+        let ch = s[i];
+        if (ch === '(')
+            st.push(ch);
+        else {
+            if (st.length > 0 && st[st.length - 1] === '(') 
+                st.pop()
+            else
+                st.push(ch);
+        }
+    }
+    return st.length;
+
+};
