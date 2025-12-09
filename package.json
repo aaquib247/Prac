@@ -5,6 +5,7 @@
   "dependencies": {
     "collections": "^5.1.13",
     "heap": "^0.2.7",
+    "heap-js": "^2.7.1",
     "node-fetch": "^2.7.0"
   },
   "devDependencies": {

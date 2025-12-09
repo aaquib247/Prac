@@ -38,6 +38,9 @@ console.log(splitArray([1,4,4], 3));     // Output: 4
 // the maximum number of pages assigned to a student is minimized. Each student must be assigned
 // at least one book, and books must be allocated in contiguous order.
 
+//TC: O(N log S) where N is number of books and S is sum of all pages
+//SC: O(1)
+
 function allocateBooks(books, students) {
     if (students > books.length) return -1;  // cannot give at least 1 book per student
 

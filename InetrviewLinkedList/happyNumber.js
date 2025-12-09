@@ -28,3 +28,6 @@ function main() {
 }
 
 main();
+
+console.log(isHappy(19)); // true
+console.log(isHappy(2));  // false
