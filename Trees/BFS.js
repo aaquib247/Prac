@@ -297,3 +297,25 @@ var isSymmetric = function (root) {
     }
     return true;
 };
+
+var isSymmetric = function(root) {
+    if (!root) return true;
+
+    return isMirror(root.left, root.right);
+};
+
+var isSymmetric = function(root) {
+    if (!root) return true;
+    return isMirror(root.left, root.right);
+};
+
+function isMirror(left, right) {
+    if (!left && !right) return true;   // both null
+    if (!left || !right) return false;  // one null, one not
+    if (left.val !== right.val) return false; // values differ
+
+    return (
+        isMirror(left.left, right.right) &&
+        isMirror(left.right, right.left)
+    );
+}

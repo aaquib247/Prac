@@ -11,7 +11,7 @@ function reorderLL(head) {
     }
 
     let mid = middleNode(head);
-    let hs = reverseList(mid);
+    let hs = reverseList(mid.next);
     let hf = head;
 
     // rearrange
