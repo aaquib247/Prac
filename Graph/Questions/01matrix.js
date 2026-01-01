@@ -1,7 +1,16 @@
 //https://leetcode.com/problems/01-matrix/description/
 //Logic :
 // New Matrix will all INFINITY and then populate the value 0 in new matrix from original.
+//Idea is to get nearest 0's from 1's. or 1's from 0's. First isn the distance from 0 is 0 so in result matrix we set 0's position to 0 and rest Infinity.
+// We will use BFS here. We will start from all 0's and explore their neighbors in 4 directions(up,down,left,right).
+// If we find a neighbor which has value greater than current cell + 1, we update it and add that cell to queue for further exploration.
+// This way we ensure that we are always expanding from the nearest 0's first, thus guaranteeing the shortest distance calculation.
+
+// Time Complexity: O(m * n) where m is number of rows and n is number of columns in the matrix.
+// Space Complexity: O(m * n) for the result matrix and the queue in worst case.
 // get 4 directions and calculate shortest distance
+
+// SLight change for 01 matrix nearest to 1 is to start from all 1's and mark them 0 in result matrix and rest as Infinity.
 /**
  * @param {number[][]} mat
  * @return {number[][]}

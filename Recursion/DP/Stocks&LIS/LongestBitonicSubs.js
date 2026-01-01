@@ -1,33 +1,40 @@
+//The question states that we need to find the length of longest bitonic subsequence in a given array.
+//A bitonic subsequence is a sequence which first increases and then decreases.
+//To solve this, we can use dynamic programming to find the Longest Increasing Subsequence (LIS) and Longest Decreasing Subsequence (LDS) for each element in the array.
+//The length of the longest bitonic subsequence at each index can be found by adding the lengths of LIS and LDS at that index and subtracting 1 (to avoid double counting the peak element).
+
+//TC - O(N^2) and SC - O(N) for LIS and O(N) for LDS
 function longestBitonicSubsequence(arr) {
     const n = arr.length;
-    let lis = new Array(n).fill(1);
-    let lds = new Array(n).fill(1);
 
-    // Compute LIS from left to right
+    // Step 1: Calculate the LIS (Longest Increasing Subsequence) from left to right
+    let lis = new Array(n).fill(1);  // Array to store LIS length at each index
     for (let i = 1; i < n; i++) {
-        for (let j = 0; j < i; j++) {
-            if (arr[i] > arr[j]) {
-                lis[i] = Math.max(lis[i], lis[j] + 1);
+        for (let prev = 0; prev < i; prev++) {
+            if (arr[i] > arr[prev]) {
+                lis[i] = Math.max(lis[i], lis[prev] + 1);
             }
         }
     }
 
-    // Compute LDS from right to left
-    for (let i = n - 2; i >= 0; i--) {
-        for (let j = n - 1; j > i; j--) {
-            if (arr[i] > arr[j]) {
-                lds[i] = Math.max(lds[i], lds[j] + 1);
+    // Step 2: Calculate the LDS (Longest Decreasing Subsequence) using LIS-style from left to right
+    let lds = new Array(n).fill(1);  // Array to store LDS length at each index
+    for (let i = 1; i < n; i++) {
+        for (let prev = 0; prev < i; prev++) {
+            if (arr[i] < arr[prev]) {  // For decreasing subsequences
+                lds[i] = Math.max(lds[i], lds[prev] + 1);
             }
         }
     }
 
-    // Find max of lis[i] + lds[i] - 1
-    let maxLen = 0;
+    // Step 3: Calculate the maximum length of the bitonic subsequence
+    let maxBitonicLength = 0;
     for (let i = 0; i < n; i++) {
-        maxLen = Math.max(maxLen, lis[i] + lds[i] - 1);
+        // Bitonic subsequence includes LIS[i] + LDS[i] - 1 (subtract 1 to avoid double counting the peak element)
+        maxBitonicLength = Math.max(maxBitonicLength, lis[i] + lds[i] - 1);
     }
 
-    return maxLen;
+    return maxBitonicLength;
 }
 
 // Example

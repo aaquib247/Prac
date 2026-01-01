@@ -1,51 +1,48 @@
-const { MinHeap } = require('heap'); // Assuming 'heap' is installed and provides a MinHeap
+import MinHeap from "./MinHeap.js";
 
 class Graph {
-    constructor(N) {
-        this.N = N; // Number of vertices
-        this.adjList = Array.from({ length: N }, () => []);
-    }
+  constructor(V) {
+    this.V = V;
+    this.adjList = Array.from({ length: V }, () => []);
+  }
 
-    addEdge(u, v, w) {
-        this.adjList[u].push({ vertex: v, weight: w });
-        this.adjList[v].push({ vertex: u, weight: w }); // For undirected graph
-    }
+  addEdge(u, v, w) {
+    this.adjList[u].push([v, w]);
+    this.adjList[v].push([u, w]); // undirected
+  }
 
-    primMST(start) {
-        const visited = new Set(); // Track vertices included in MST
-        const minHeap = new MinHeap((a, b) => a[1] - b[1]); // Min-heap based on edge weight
-        const key = Array(this.N).fill(Infinity); // Minimum weight to connect each vertex to MST
-        const parent = Array(this.N).fill(null); // Store parent of each vertex in MST
-        let mstWeight = 0;
+  // Prim's MST method inside Graph class
+  primMST() {
+    const visited = new Array(this.V).fill(0);
+    const mst = [];
+    const pq = new MinHeap();
 
-        key[start] = 0;
-        minHeap.add([start, 0]);
+    // start from node 0
+    pq.insert([0, 0, -1]); // [weight, node, parent]
 
-        while (!minHeap.isEmpty()) {
-            const [u, uKey] = minHeap.remove();
+    while (!pq.isEmpty() && mst.length < this.V - 1) {
+      const [wt, node, parent] = pq.extractMin();
 
-            if (visited.has(u)) continue; // Skip already included vertices in MST
+      if (visited[node] === 1) continue;
 
-            visited.add(u);
-            mstWeight += uKey;
+      visited[node] = 1;
 
-            for (const { vertex: v, weight: w } of this.adjList[u]) {
-                if (!visited.has(v) && w < key[v]) {
-                    key[v] = w;
-                    parent[v] = u;
-                    minHeap.add([v, w]);
-                }
-            }
+      if (parent !== -1) {
+        mst.push([wt, node, parent]);
+      }
+
+      for (let [adjNode, edgeWt] of this.adjList[node]) {
+        if (visited[adjNode] === 0) {
+          pq.insert([edgeWt, adjNode, node]);
         }
-
-        // Return MST weight and parent array for edges
-        return { mstWeight, parent };
+      }
     }
+
+    return mst;
+  }
 }
 
-// Example usage
-const N = 5; // Number of vertices
-const graph = new Graph(N);
+const graph = new Graph(5);
 
 graph.addEdge(0, 1, 2);
 graph.addEdge(0, 3, 6);
@@ -55,6 +52,9 @@ graph.addEdge(1, 4, 5);
 graph.addEdge(2, 4, 7);
 graph.addEdge(3, 4, 9);
 
-const { mstWeight, parent } = graph.primMST(0);
-console.log("Weight of MST:", mstWeight);
-console.log("Parent array:", parent);
+const mstResult = graph.primMST();
+
+console.log("Edges in the Minimum Spanning Tree:");
+for (let [wt, node, parent] of mstResult) {
+  console.log(`Parent: ${parent}, Node: ${node}, Weight: ${wt}`);
+}

@@ -67,3 +67,26 @@ var rob = function(nums) {
     let option2 = robLinear(nums.slice(1));
     return Math.max(option1, option2);
 };
+//--------------------------------HOUSE ROBBER 2 END----------------------------------
+var rob = function (nums) {
+    if(nums.length === 1) return nums[0];
+    let option1 = getMax(nums.slice(0, nums.length - 1));
+    let option2 = getMax(nums.slice(1));
+    return Math.max(option1, option2);
+};
+
+function getMax(nums) {
+    let dp = new Array(nums.length).fill(-1);
+    function max(index) {
+
+        if (index === 0) return nums[index]
+        if (index < 0) return 0
+        if (dp[index] != -1) return dp[index]
+
+        let p = nums[index] + max(index - 2);
+        let up = 0 + max(index - 1);
+        return dp[index] = Math.max(p, up)
+
+    }
+    return max(nums.length - 1)
+}

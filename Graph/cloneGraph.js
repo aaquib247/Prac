@@ -49,5 +49,72 @@ node2.neighbors.push(node1, node3);
 node3.neighbors.push(node2, node4);
 node4.neighbors.push(node1, node3);
 
-const clonedGraph = cloneGraph(node1);
-console.log(clonedGraph); // Should show a deep copy of the graph
+// const clonedGraph = cloneGraph(node1);
+// console.log(clonedGraph); // Should show a deep copy of the graph
+
+
+//-------------
+class Graph {
+    constructor() {
+        this.adjacencyList = {};
+    }
+
+    addVertex(vertex) {
+        if (!this.adjacencyList[vertex]) {
+            this.adjacencyList[vertex] = [];
+        }
+    }
+
+    addEdge(v1, v2) {
+        this.adjacencyList[v1].push(v2);
+        this.adjacencyList[v2].push(v1);
+    }
+
+    // 🔹 Clone the graph
+    clone() {
+        const newGraph = new Graph();
+
+        // 1. Copy all vertices
+        for (let vertex in this.adjacencyList) {
+            newGraph.addVertex(vertex);
+        }
+
+        // 2. Copy all edges
+        for (let vertex in this.adjacencyList) {
+            for (let neighbor of this.adjacencyList[vertex]) {
+                // Avoid duplicate edges
+                if (!newGraph.adjacencyList[vertex].includes(neighbor)) {
+                    newGraph.addEdge(vertex, neighbor);
+                }
+            }
+        }
+
+        return newGraph;
+    }
+}
+
+// ================== TEST ==================
+
+// Original graph
+const graph = new Graph();
+graph.addVertex("A");
+graph.addVertex("B");
+graph.addVertex("C");
+graph.addVertex("D");
+
+graph.addEdge("A", "B");
+graph.addEdge("B", "C");
+graph.addEdge("C", "D");
+graph.addEdge("D", "A");
+
+console.log("Original Graph:");
+console.log(graph.adjacencyList);
+
+// Clone graph
+const clonedGraph = graph.clone();
+
+console.log("\nCloned Graph:");
+console.log(clonedGraph.adjacencyList);
+
+// Check they are different objects
+console.log("\nSame object?", graph === clonedGraph); // false

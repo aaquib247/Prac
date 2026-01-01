@@ -2,9 +2,7 @@
 function knapsack(weights, values, n, capacity) {
     function find(ind, W) {
         if (ind === 0) {
-            if(W % weights[0] === 0){
-                return W / weights[0]*values[0]
-               }
+            return W / weights[0] * values[0] // even when the ind is 0, the return wiill be 0
         }
         let nT = 0 + find(ind - 1, W);
         let T = -Number.MAX_SAFE_INTEGER;
@@ -27,9 +25,9 @@ function knapsackMemo(weights, values, n, capacity) {
 
     function find(ind, W) {
         if (ind === 0) {
-            if(W % weights[0] === 0){
-                return W / weights[0]*values[0]
-               }
+            if (W % weights[0] === 0) {
+                return W / weights[0] * values[0]
+            }
         }
 
         if (dp[ind][W] != -1)
@@ -56,7 +54,7 @@ function knapsackTab(weights, values, n, capacity) {
     for (let i = weights[0]; i <= capacity; i++) {
         dp[0][i] = Math.floor(i / weights[0]) * values[0];
     }
-    
+
     for (let i = 1; i < n; i++) {
         for (let j = 0; j <= capacity; j++) {
             let nT = 0 + dp[i - 1][j];
@@ -67,7 +65,7 @@ function knapsackTab(weights, values, n, capacity) {
             dp[i][j] = Math.max(nT, T);
         }
     }
-   return dp[n-1][capacity]
+    return dp[n - 1][capacity]
 }
 // Example usage:
 const weight1 = [2, 4, 6];

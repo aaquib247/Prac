@@ -35,6 +35,9 @@ function dijkstra(N, edges, src) {
     return dist.map(d => (d === Infinity ? -1 : d));
 }
 
+//TC is E log V --> why E logV beacuse in worst case all edges will be processed and for each edge we are doing log V operation to insert into minHeap
+//SC is O(N + E)
+
 // Example usage
 const N = 6; // Number of vertices
 const edges = [[0, 1, 2], [0, 4, 1], [1, 2, 3], [2, 3, 6], [4, 5, 4], [5, 3, 1]];

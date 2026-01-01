@@ -1,5 +1,6 @@
 
-
+//Intuition: For each cell containing '1', we can form a square whose size is determined by the minimum size of squares that can be formed to the right, down, and diagonally down-right of that cell.
+// We add 1 to this minimum size to account for the current cell itself. If a cell contains '0', it cannot contribute to any square, so its size is 0.
 function maximalSquare(matrix) {
     const rows = matrix.length;
     const cols = matrix[0].length;

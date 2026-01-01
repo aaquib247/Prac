@@ -125,7 +125,8 @@ class MinHeap {
 const n = 5;
 const m = 6;
 const edges = [[1, 2, 2], [2, 5, 5], [2, 3, 4], [1, 4, 1], [4, 3, 3], [3, 5, 1]];
-console.log(shortestPath_Undirected(n, m, edges))
+console.log(shortestPath_Undirected(n, m, edges)) 
+//outpu t: [ 1, 4, 3, 5 ]
 
 // const n = 2;
 // const m = 1;

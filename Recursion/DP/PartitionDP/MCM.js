@@ -36,7 +36,8 @@ function matrixChainMultiplication(arr) {
 }
 
 // 🧪 Test
-const arr = [40, 20, 30, 10, 30];
+const arr = [10,30,5,60];
+// const arr = [40, 20, 30, 10, 30];
 console.log("Minimum multiplications needed:", matrixChainMultiplication(arr)); 
 // Output: 26000
 

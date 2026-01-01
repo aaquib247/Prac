@@ -1,4 +1,5 @@
-
+// TC - O(N*M) and SC - O(N*M) for memoization and without memoization it has TC - Exponential
+// LCS - Longest Common Subsequence
 function lcs(s1, s2) {
     const n = s1.length;
     const m = s2.length;
@@ -141,7 +142,7 @@ function main() {
     const s1 = "acd";
     const s2 = "ced";
 
-    // Call the lcs function and print the result
+    // Call the lcs function and print the result - output: "cd"
     const result = lcs(s1, s2);
     console.log("The Longest Common Subsequence is: " + result);
 }
@@ -167,9 +168,8 @@ function lcsub(s1, s2) {
         for (let j = 1; j <= m; j++) {
             // If the characters match, update 'dp' and 'ans'
             if (s1[i - 1] === s2[j - 1]) {
-                const val = 1 + dp[i - 1][j - 1];
-                dp[i][j] = val;
-                ans = Math.max(ans, val);
+                dp[i][j] = 1 + dp[i - 1][j - 1];
+                ans = Math.max(ans, dp[i][j]);
             } else {
                 // If characters don't match, set 'dp' to 0 for the current position
                 dp[i][j] = 0;
@@ -186,7 +186,7 @@ function main() {
     const s1 = "abcjklp";
     const s2 = "acjkp";
 
-    // Call the lcs function and print the result
+    // Call the lcs function and print the result -  output: 3
     console.log("The Length of Longest Common Substring is " + lcsub(s1, s2));
 }
 
@@ -207,20 +207,17 @@ function lcsubprint(s1, s2) {
     let endIdx = 0;  // This will store the index of the end of the substring in s1
 
     // Use nested loops to iterate through the characters of both strings
-    for (let i = 1; i <= n; i++) {
-        for (let j = 1; j <= m; j++) {
-            // If the characters match, update 'dp' and 'ans'
-            if (s1[i - 1] === s2[j - 1]) {
-                dp[i][j] = 1 + dp[i - 1][j - 1];
-                if (dp[i][j] > ans) {
-                    ans = dp[i][j];
-                    endIdx = i;  // Update the end index of the longest common substring in s1
-                }
-            } else {
-                dp[i][j] = 0;  // If characters don't match, reset dp[i][j] to 0
-            }
+for (let i = 1; i <= n; i++) {
+    for (let j = 1; j <= m; j++) {
+        if (s1[i - 1] === s2[j - 1]) {
+            dp[i][j] = 1 + dp[i - 1][j - 1];
+            ans = Math.max(ans, dp[i][j]);
+            if (dp[i][j] === ans) endIdx = i;  // track end index
+        } else {
+            dp[i][j] = 0;
         }
     }
+}
 
     // Reconstruct the longest common substring from the dp table
     let longestCommonSubstring = s1.slice(endIdx - ans, endIdx);
@@ -284,11 +281,13 @@ function longestPalindromeSubsequence(s) {
 // Main function
 function main() {
     const s = "bbabcbcab";
-    
+    //other easy example: "agbcba" output: 5
+
     // Call the longestPalindromeSubsequence function and print the result
     console.log("The Length of Longest Palindromic Subsequence is " + longestPalindromeSubsequence(s));
 }
 
+//Print Longest Palindromic Subsequence
 // Call the main function to start the program
 main();
 
@@ -343,7 +342,7 @@ function longestPalindromeSubsequence(s1, s2) {
 function main() {
     const s1 = "bbabcbcab";  // First string
     const s2 = "abcbab";     // Second string
-    
+
     // Call the longestPalindromeSubsequence function and print the result
     console.log("The Longest Palindromic Subsequence between the two strings is: " + longestPalindromeSubsequence(s1, s2));
 }
@@ -397,12 +396,13 @@ function minInsertion(s) {
     const k = longestPalindromeSubsequence(s);
 
     // The minimum insertions required is equal to the length of the string minus the length of its Longest Palindromic Subsequence
+    // Intuitively, this is because the characters not part of the LPS need to be inserted to form a palindrome
     return n - k;
 }
 
 // Main function
 function main() {
-    const s = "abcaa";
+    const s = "abcaa"; 
 
     // Call the minInsertion function and print the result
     console.log("The Minimum insertions required to make the string palindrome: " + minInsertion(s));

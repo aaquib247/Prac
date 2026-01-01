@@ -28,7 +28,8 @@ function minimumMultiplications(arr, start, end) {
     
     return -1; // if we exhaust the queue without finding the end
 }
-
+//TC: O(N * M) where N is the size of arr and M is the range of numbers (100000 here)
+//SC: O(M) for the visited set and queue
 // Example usage:
 console.log(minimumMultiplications([2, 5, 7], 3, 30)); // Output: 2
 console.log(minimumMultiplications([3, 4, 65], 7, 66175)); // Output: 4
@@ -71,6 +72,8 @@ class Solution {
         return -1;
     }
 }
+//TC: O(N * M) where N is the size of arr and M is the range of numbers (100000 here)
+//SC: O(M) for the dist array and queue
 
 // Example usage:
 const start = 3;

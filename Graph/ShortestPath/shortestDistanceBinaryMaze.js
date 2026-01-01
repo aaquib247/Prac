@@ -51,6 +51,9 @@ function shortestPath(grid, source, destination) {
     return -1;
 }
 
+//TC is O(N*M) where N is number of rows and M is number of columns
+//SC is O(N*M) for distance matrix and queue in worst case
+
 // Example usage
 const grid1 = [
     [1, 1, 1, 1],

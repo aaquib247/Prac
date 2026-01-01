@@ -106,6 +106,22 @@ if(ind == 0){
     return 0;
 }
 
+function sumTarget(i, target) {
+    if (i === 0) {
+        if (target === 0 && nums[0] === 0) return 2;
+        if (target === 0 || nums[0] === target) return 1;
+        return 0;
+    }
+
+    let np = sumTarget(i - 1, target);
+    let p = 0;
+    if (nums[i] <= target)
+        p = sumTarget(i - 1, target - nums[i]);
+
+    return np + p;
+}
+
+
 // Easiest Way
 // Count the number of zeroes in it
 // and then find Math.pow(2,no) and multiply by your answer

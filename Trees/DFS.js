@@ -309,30 +309,23 @@ function binaryTreePaths(root) {
 
 
 // https://leetcode.com/problems/minimum-depth-of-binary-tree/
-var minDepth = function (root) {
-    if (root === null)
-        return 0;
+var minDepth = function(root) {
+    if (!root) return 0;
 
-    function depth(root) {
-        if (root === null)
-            return 0;
+    function depth(node) {
+        if (!node) return Infinity; // important trick
 
-        if (root.left === null) {
-            return depth(root.right);
-        }
+        if (!node.left && !node.right) return 1;
 
-        if (root.right === null) {
-            return depth(root.left);
-        }
-
-        let left = depth(root.left) + 1
-        let right = depth(root.right) + 1
-
-        return (Math.min(left, right) + 1)
+        return Math.min(
+            depth(node.left),
+            depth(node.right)
+        ) + 1;
     }
-    return depth(root);
 
+    return depth(root);
 };
+
 
 
 //https://leetcode.com/problems/sum-of-left-leaves/

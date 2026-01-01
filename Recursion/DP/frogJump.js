@@ -119,32 +119,38 @@ function main() {
   //https://www.naukri.com/code360/problems/minimal-cost_8180930?utm_source=striver&utm_medium=website&utm_campaign=a_zcoursetuf
   //Time Complexity: O(N *K) and SC - O(N)
   
-function solveUtil(ind, height, dp, k) {
-    // Base case: If we are at the beginning (index 0), no cost is needed.
-    if (ind === 0) return 0;
-    // If the result for this index has been previously calculated, return it.
-    if (dp[ind] !== -1) return dp[ind];
-  
-    let mmSteps = Infinity;
-  
-    // Loop to try all possible jumps from '1' to 'k'
-    for (let j = 1; j <= k; j++) {
-      // Ensure that we do not jump beyond the beginning of the array
-      if (ind - j >= 0) {
-        // Calculate the cost for this jump and update mmSteps with the minimum cost
-        const jump =
-          solveUtil(ind - j, height, dp, k) + Math.abs(height[ind] - height[ind - j]);
-        mmSteps = Math.min(jump, mmSteps);
-      }
+var frog = function (height, n, k) {
+    const dp = Array(n).fill(-1);
+
+    function min(n) {
+        // Base case
+        if (n === 0) return 0;
+
+        // DP check
+        if (dp[n] !== -1) return dp[n];
+
+        let ans = Infinity;
+
+        // Try jumps from 1 to k
+        for (let j = 1; j <= k; j++) {
+            if (n - j >= 0) {
+                const jump =
+                    min(n - j) + Math.abs(height[n] - height[n - j]);
+                ans = Math.min(ans, jump);
+            }
+        }
+
+        // Store and return
+        dp[n] = ans;
+        return dp[n];
     }
-    // Store the minimum cost for this index in the dp array and return it.
-    dp[ind] = mmSteps;
-    return dp[ind];
-  }
+
+    return min(n - 1);
+};
+
   
   function solve(n, height, k) {
-    const dp = Array(n).fill(-1); // Initialize a memoization array to store calculated results
-    return solveUtil(n - 1, height, dp, k); // Start the recursion from the last index
+    return frog(height,n,k); // Start the recursion from the last index
   }
   
   const height = [30, 10, 60, 10, 60, 50];
@@ -213,10 +219,38 @@ function solveUtil(n, height, dp, k) {
   main();
   
   
-  
-  
-  
+//--------------
+//for 1 or 2 steps
+function min(n) {
+    if (n === 0) return 0;
 
+    const jumpOne = min(n - 1) + Math.abs(height[n] - height[n - 1]);
 
+    let jumpTwo = Infinity;
+    if (n > 1) {
+        jumpTwo = min(n - 2) + Math.abs(height[n] - height[n - 2]);
+    }
+
+    return Math.min(jumpOne, jumpTwo);
+}
+
+// for k steps
+function min(n) {
+    // Base case
+    if (n === 0) return 0;
+
+    let ans = Infinity;
+
+    // Try all jumps from 1 to k
+    for (let j = 1; j <= k; j++) {
+        if (n - j >= 0) {
+            const jump =
+                min(n - j) + Math.abs(height[n] - height[n - j]);
+            ans = Math.min(ans, jump);
+        }
+    }
+
+    return ans;
+}
 
 

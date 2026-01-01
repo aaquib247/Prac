@@ -84,17 +84,16 @@ function levelOrder(root) {
 // ===== PROPERTY FUNCTIONS =====
 
 // Maximum Depth of the Tree
-function maxDepth(root) {
-  if (!root) return 0;
-  if (root.children.length === 0) return 1;
+var maxDepth = function(root) {
+    if (!root) return 0;
 
-  let max = 0;
-  for (const child of root.children) {
-    max = Math.max(max, maxDepth(child));
-  }
+    let max = 0;
+    for (let child of root.children) {
+        max = Math.max(max, maxDepth(child));
+    }
 
-  return max + 1;
-}
+    return max + 1;
+};
 
 // Count Total Leaf Nodes
 function countLeafNodes(root) {
@@ -115,3 +114,34 @@ console.log("Postorder Traversal: ", postorder(root));    // [2, 5, 6, 3, 4, 1]
 console.log("Level Order Traversal: ", levelOrder(root)); // [[1], [2, 3, 4], [5, 6]]
 console.log("Max Depth: ", maxDepth(root));               // 3
 console.log("Leaf Node Count: ", countLeafNodes(root));   // 4 (Nodes 2, 5, 6, 4)
+
+
+//k-th Largest Level Sum — N-ary Tree (BFS)
+var kthLargestLevelSum = function (root, k) {
+    if (!root) return -1;
+
+    let queue = [root];
+    let sums = [];
+    let idx = 0;
+
+    while (idx < queue.length) {
+        let size = queue.length - idx;
+        let sum = 0;
+
+        for (let i = 0; i < size; i++) {
+            let node = queue[idx++];
+            sum += node.val;
+            //instead of left and right, we have children array
+            for (let child of node.children) {
+                if (child) queue.push(child);
+            }
+        }
+
+        sums.push(sum);
+    }
+
+    if (k > sums.length) return -1;
+
+    sums.sort((a, b) => b - a);
+    return sums[k - 1];
+};
