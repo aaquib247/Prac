@@ -24,6 +24,7 @@ function matrixChainMultiplication(arr) {
         let min = Infinity;
         for (let k = i; k < j; k++) {
             const cost = solve(i, k) + solve(k + 1, j) + arr[i - 1] * arr[k] * arr[j];
+            console.log(cost)
             min = Math.min(min, cost);
         }
 

@@ -5,61 +5,28 @@ class ListNode {
     }
 }
 
-function detectCycle(head) {
-    let length = 0;
 
-    let fast = head;
-    let slow = head;
+function detectCycleStart(head) {
+  let slow = head;
+  let fast = head;
 
-    while (fast !== null && fast.next !== null) {
-        fast = fast.next.next;
+  // Step 1: Detect if a cycle exists
+  while (fast && fast.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+
+    if (slow === fast) {
+      // Step 2: Find the start of the cycle
+      let start = head;
+      while (start !== slow) {
+        start = start.next;
         slow = slow.next;
-        if (fast === slow) {
-            length = lengthCycle(slow); // calculate length of the cycle
-            break;
-        }
+      }
+      return start; // This is the start node of the cycle
     }
+  }
 
-    if (length === 0) {
-        return null;
-    }
-
-    // find the start node of the cycle
-    let f = head;
-    let s = head;
-
-    while (length > 0) {
-        s = s.next;
-        length--;
-    }
-
-    // move both pointers until they meet at the start of the cycle
-    while (f !== s) {
-        f = f.next;
-        s = s.next;
-    }
-    return s;
-}
-
-function lengthCycle(head) {
-    let fast = head;
-    let slow = head;
-
-    while (fast !== null && fast.next !== null) {
-        fast = fast.next.next;
-        slow = slow.next;
-        if (fast === slow) {
-            // calculate the length of the cycle
-            let temp = slow;
-            let length = 0;
-            do {
-                temp = temp.next;
-                length++;
-            } while (temp !== slow);
-            return length;
-        }
-    }
-    return 0;
+  return null; // No cycle
 }
 
 // Example usage
@@ -72,7 +39,7 @@ function main() {
     head.next.next.next.next = new ListNode(5);
     head.next.next.next.next.next = head.next; // cycle back to node with value 2
 
-    let cycleStart = detectCycle(head);
+    let cycleStart = detectCycleStart(head);
     if (cycleStart !== null) {
         console.log("Cycle starts at node with value: " + cycleStart.val);
     } else {

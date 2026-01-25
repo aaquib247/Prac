@@ -11,6 +11,8 @@
 
 //In short the question is to find the minimum day such that we can make m bouquets with k flowers each
 //Intuition: If we can make m bouquets on day x, we can also make them on any day greater than x
+// k is the number of adjacent flowers needed for one bouquet
+//bloomDay is an array where each element represents the day a flower blooms
 
 var minDays = function(bloomDay, m, k) {
     if (m * k > bloomDay.length) return -1;

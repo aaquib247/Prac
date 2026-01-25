@@ -17,7 +17,7 @@ var maxDistance = function(position, m) {
     position.sort((a,b)=>a-b);
 
     let left = 1;  
-    let right = position[position.length-1] - position[0];
+    let right = position[position.length-1] - position[0]; // why max - min ? Because max distance between two cows/balls can be between the farthest two positions.
 
     const canPlace = (dist) => {
         let count = 1, last = position[0];
@@ -30,13 +30,17 @@ var maxDistance = function(position, m) {
         }
         return false;
     };
-
-    while (left < right) {
-        let mid = Math.floor((left + right + 1) / 2); // upper mid
-        if (canPlace(mid)) left = mid;
+    
+    let res = 1;
+    while (left <= right) {
+        let mid = Math.floor((left + right) / 2); // upper mid
+        if (canPlace(mid)){
+        res = mid;
+        left = mid + 1; // we want to maximize the minimum distance
+        } 
         else right = mid - 1;
     }
-    return left;
+    return res;
 };
 
 console.log(maxDistance([1,2,3,4,7], 3)); // Output: 3          

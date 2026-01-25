@@ -17,6 +17,7 @@ var minCostClimbingStairs = function (cost) {
     return Math.min(mincost(cost.length - 1), mincost(cost.length - 2));
 
 };
+//TC - O(N) and SC - O(N) and without memoization the TC will be O(2^N)
 
 // Example usage:
 console.log(minCostClimbingStairs([10, 15, 20])); // Output: 15

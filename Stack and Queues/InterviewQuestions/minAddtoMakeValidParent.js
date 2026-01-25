@@ -44,3 +44,5 @@ var minAddToMakeValid = function (s) {
     return st.length;
 
 };
+//TC: O(N)
+//SC: O(N)

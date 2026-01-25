@@ -20,4 +20,4 @@ var longestValidParentheses = function(s) {
 };
 
 console.log(longestValidParentheses("()(() ")); // Output: 2
-console.log(longestValidParentheses(")()())"));
+console.log(longestValidParentheses(")()())")); //output: 4

@@ -8,10 +8,14 @@
 // Return the minimum integer k such that she can eat all the bananas within h hours.
 
 //TC: O(n log m) where n is the number of piles and m is the maximum number of bananas in a pile.
+//How TC is nlog m?
+//The binary search runs in O(log m) time, where m is the maximum number of bananas in a pile (the search space for k).
+//For each mid value of k, we need to check if Koko can eat all the bananas within h hours, which takes O(n) time as we need to iterate through all piles.
+//Combining these, the overall time complexity is O(n log m).
 //SC: O(1)
 
 var minEatingSpeed = function(piles, h) {
-    let left = 1;
+    let left = 1; //why left = 1? because minimum eating speed can be 1 banana per hour
     let right = Math.max(...piles);
 
     while (left < right) {
@@ -25,6 +29,8 @@ var minEatingSpeed = function(piles, h) {
     }
 
     return left;
+    //why return left?
+    //At the end of the binary search, left will be equal to right, which represents the minimum eating speed k that allows Koko to finish all the bananas within h hours.
 };
 
 function canEatAll(piles, h, k) {

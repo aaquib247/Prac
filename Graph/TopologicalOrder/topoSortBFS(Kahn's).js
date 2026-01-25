@@ -78,3 +78,5 @@ graph.addEdge('C', 'D');
 graph.addEdge('D', 'A');
 
 console.log(graph.topologicalSortKahn()); // Output: ['A', 'B', 'C', 'D']
+//TC: O(V + E)
+//SC: O(V + E)

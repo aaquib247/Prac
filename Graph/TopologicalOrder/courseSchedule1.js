@@ -1,6 +1,7 @@
 var canFinish = function (n, prerequisites) {
     if (n === 1) return true;
     const adjList = Array(n).fill(null).map(() => []);
+    //Array(n).fill(null).map(() => []); can be written as Array.from({length: n}, () => []);
     const inDegree = Array(n).fill(0);
 
     // Build graph and compute in-degrees
@@ -45,3 +46,6 @@ var canFinish = function (n, prerequisites) {
 
 console.log(canFinish(2,[[1,0],[0,1]]))
 console.log(canFinish(2,[[1,0]]))
+
+//TC: O(V + E)
+//SC: O(V + E)  

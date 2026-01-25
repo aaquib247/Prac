@@ -73,7 +73,8 @@ function topKFrequent(nums, k) {
     // Extract and return results (most frequent first)
     const result = [];
     while (minHeap.size() > 0) {
-        result.push(minHeap.pop()[0]);
+        let [k,v] = minHeap.pop()
+        result.push(k);
     }
     return result.reverse();
 }

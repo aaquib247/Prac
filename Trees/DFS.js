@@ -203,6 +203,42 @@ var hasPathSum = function (root, targetSum) {
     return hasPathSum(root.left, targetSum) || hasPathSum(root.right, targetSum);
 }
 
+//https://leetcode.com/problems/path-sum-ii/
+
+var pathSum = function(root, targetSum) {
+    const result = [];  // This will store all valid paths
+    const currentPath = [];  // This will store the current path we're exploring
+
+    // Helper function for DFS traversal
+    function dfs(node, remainingSum) {
+        if (node === null) return;
+
+        // Subtract the current node's value from remainingSum
+        remainingSum -= node.val;
+
+        // Add the current node's value to the current path
+        currentPath.push(node.val);
+
+        // If we've reached a leaf node, check if the path sum equals targetSum
+        if (node.left === null && node.right === null && remainingSum === 0) {
+            result.push([...currentPath]);  // Add the current path to result (make a copy of the path)
+        }
+
+        // Recurse on left and right children with updated remaining sum
+        dfs(node.left, remainingSum);
+        dfs(node.right, remainingSum);
+
+        // Backtrack by removing the current node from the path
+        currentPath.pop();
+    }
+
+    // Start DFS traversal from the root
+    dfs(root, targetSum);
+
+    return result;
+};
+
+
 
 //https://leetcode.com/problems/sum-root-to-leaf-numbers/
 var sumNumbers = function (root) {

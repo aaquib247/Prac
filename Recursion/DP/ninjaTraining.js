@@ -25,6 +25,8 @@ var matrixDistance = function (n, points) {
 
     return f(n - 1, 3)
 };
+//TC - O(3^N) and SC - O(N) where N is number of days
+//TC is exponential because for each day we are making 3 recursive calls (one for each activity) and the depth of the recursion tree is N (number of days).
 
   // Define the 'points' array with the ninja training data
   let points = [
@@ -42,6 +44,7 @@ console.log(matrixDistance(n,points))
 // if found then return 
 // return statement
 // TC - O(N*4)*3 and SC - O(N)(days)+O(N*4)
+//why TC is O(N*4)*3 because for each day (N) and for each last activity (4), we are making 3 recursive calls (one for each activity except the last one).
 var matrixDistance = function (n, points) {
     let dp = Array.from({ length: n }, () => new Array(4).fill(-1));
     function f(days, last) {

@@ -55,8 +55,9 @@ function fun(arr) {
 }
 
 // Example usage
-let res = fun([100,80,60,70,60,75,85])
-console.log(res);  // Output: [0, 2, 3, 4, -1]
+let res = fun([120, 100, 60, 80, 90, 110, 115]) 
+
+console.log(res);  
 
 for (let i = 0; i < res.length; i++) {
     if (res[i] !== -1) {
@@ -64,4 +65,5 @@ for (let i = 0; i < res.length; i++) {
     }
 }
 
-console.log(res);  // Output: [1, 1, 1, 1, 0]
+console.log(res);  
+

@@ -29,3 +29,8 @@ function maxArea(height) {
 
 const heights = [1,8,6,2,5,4,8,3,7];
 console.log(maxArea(heights)); // Output: 49
+
+//how this is a stack question?
+//This problem can be related to stack concepts in terms of maintaining potential boundaries for water containment. 
+//However, the two-pointer technique is more efficient for this specific problem. 
+//Stacks are more commonly used in problems involving histograms or when we need to keep track of indices for dynamic boundaries.

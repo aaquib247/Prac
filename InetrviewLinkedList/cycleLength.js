@@ -5,25 +5,28 @@ class ListNode {
     }
 }
 
-function lengthCycle(head) {
-    let fast = head;
-    let slow = head;
+function cycleLength(head) {
+  let slow = head;
+  let fast = head;
 
-    while (fast !== null && fast.next !== null) {
-        fast = fast.next.next;
-        slow = slow.next;
-        if (fast === slow) {
-            // calculate the length of the cycle
-            let temp = slow;
-            let length = 0;
-            do {
-                temp = temp.next;
-                length++;
-            } while (temp !== slow);
-            return length;
-        }
+  // Detect cycle using Floyd’s Tortoise and Hare
+  while (fast && fast.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+
+    if (slow === fast) {
+      // Cycle detected, find its length
+      let length = 1;
+      let current = slow.next;
+      while (current !== slow) {
+        current = current.next;
+        length++;
+      }
+      return length;
     }
-    return 0;
+  }
+
+  return 0; // No cycle
 }
 
 // Example usage
@@ -36,8 +39,8 @@ function main() {
     head.next.next.next.next = new ListNode(5);
     head.next.next.next.next.next = head.next; // cycle back to node with value 2
 
-    let cycleLength = lengthCycle(head);
-    console.log("Length of Cycle: " + cycleLength);
+    let len = cycleLength(head);
+    console.log("Length of Cycle: " + len);
 }
 
 main();

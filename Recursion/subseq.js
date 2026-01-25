@@ -49,7 +49,7 @@ class SubSeq {
 // Uncomment to test the functions:
 
 SubSeq.subseq("", "abc");
-
+let res = [];
 let ans = SubSeq.subseqRet("", "abc");
 console.log(ans);
 

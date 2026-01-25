@@ -18,7 +18,7 @@ let n = 3; // number of columns
 console.log(uniquePaths(m - 1, n - 1));
 
 // Memoization
-// TC - O(m+n) and SC - (m+n) + (m*n)[dp array]
+// TC - O(m*n) and SC - (m+n) + (m*n)[dp array]
 
 function uniquePathsMemo(i, j) {
     let dp = Array.from({ length: i + 1 }, () => new Array(j + 1).fill(-1));

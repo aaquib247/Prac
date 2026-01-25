@@ -80,6 +80,7 @@ function climbStairs(n, memo = {}) {
     // Return the computed value
     return memo[n];
 }
+//TC - O(N) and SC - O(N)
 
 // Example usage:
 let n = 5;

@@ -44,7 +44,8 @@ class TreeNode {
       return ans;
     }
   }
-  
+  //TC : O(N) where N is the number of nodes in the tree
+  //SC : O(N) for the map and queue
   // Example usage:
   const root = new TreeNode(3);
   root.left = new TreeNode(9);

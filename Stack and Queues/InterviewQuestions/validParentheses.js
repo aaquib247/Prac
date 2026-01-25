@@ -29,7 +29,7 @@ function isValid(s) {
             if ((t === '(' && ch === ')') || (t === '[' && ch === ']') || (t === '{' && ch === '}'))
                 continue;
             else
-                false;
+                 return false;
         }
     }
     return stack.length === 0;

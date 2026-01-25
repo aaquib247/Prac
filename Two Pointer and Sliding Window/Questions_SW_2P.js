@@ -310,7 +310,7 @@ function test(nums, k) {
             sum = sum - nums[l]
             l = l + 1
         }
-        count += r - l + 1;
+        count += r - l + 1; // how ? because from l to r all subarrays will have sum <= k
     }
 
     return count;
@@ -548,6 +548,9 @@ console.log(checkInclusion("ab", "eidboaoo"));  // false
 
 
 //https://leetcode.com/problems/sliding-window-maximum/
+//Intuition: We use a deque to store indices of array elements. 
+// The deque is maintained in such a way that the indices in it are always in decreasing order of their corresponding values in the array. 
+// This allows us to efficiently get the maximum value in the current window.
 function maxSlidingWindow(nums, k) {
     const n = nums.length;
     const result = [];

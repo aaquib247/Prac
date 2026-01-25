@@ -11,3 +11,13 @@ var isValidBST = function(root) {
 
     return isValid(root, -Infinity, Infinity);
 };
+
+//TC: O(N)
+//SC: O(H) where H is height of tree due to recursion stack
+//Example usage:
+// const root = {
+//     val: 2,
+//     left: { val: 1, left: null, right: null },
+//     right: { val: 3, left: null, right: null }
+// };
+// console.log(isValidBST(root)); // Output: true   

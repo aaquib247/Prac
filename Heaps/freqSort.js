@@ -75,5 +75,7 @@ const frequencySort = (nums) => {
     return result;
 };
 
+//TC: O(N log N) where N is the number of unique elements in nums
+//SC: O(N) for frequency map and heap storage
 console.log(frequencySort([1,1,2,2,2,3]));  // [2,2,2,1,1,3]
 console.log(frequencySort([2,3,1,3,2]));     // [2,2,3,3,1]

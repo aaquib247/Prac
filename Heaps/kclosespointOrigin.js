@@ -72,7 +72,8 @@ function kClosest(points, k) {
     // The points will be in reverse order (max to min), so reverse them
     return result.reverse();
 }
-
+//TC: O(N log k) where N is the number of points and log k is for heap operations
+//SC: O(k) for the heap storage
 // Example usage:
 const points = [[1, 3], [-2, 2], [5, 8], [0, 1]];
 const k = 2;

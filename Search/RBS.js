@@ -14,20 +14,6 @@ function search(nums, target) {
             }
         }
 
-        // 
-        // while (start < end) {
-        //     const mid = Math.floor((start + end) / 2);
-        //     if (arr[mid] > arr[end]) {
-        //         // Pivot is in the right half
-        //         start = mid + 1;
-        //     } else if(arr[mid] < arr[end]) {
-        //         // Pivot is in the left half or at mid
-        //         end = mid;
-        // //     }
-        //       else
-        //       end --;
-        // }
-
         return start;
     }
 
@@ -66,3 +52,32 @@ function search(nums, target) {
 console.log(search([4, 5, 6, 7, 0, 1, 2], 0)); // Output: 4
 console.log(search([4, 5, 6, 7, 0, 1, 2], 3)); // Output: -1
 console.log(search([1], 0)); // Output: -1
+
+//For duplicate elements : Search in Rotated Sorted Array II
+//only change is in findPivot function where we handle the case when arr[mid] == arr[end] = end --;
+
+//TC: O(log N) average case, O(N) worst case (due to duplicates)
+//SC: O(1)
+
+    function findPivot(arr) {
+        let start = 0;
+        let end = arr.length - 1;
+
+        while (start < end) {
+            const mid = Math.floor((start + end) / 2);
+            if(arr[mid] === arr[end]) {
+                end--;
+            }
+            else if (arr[mid] > arr[end]) {
+                // Pivot is in the right half
+                start = mid + 1;
+            } else {
+                // Pivot is in the left half or at mid
+                end = mid;
+            }
+        }
+
+
+
+        return start;
+    }

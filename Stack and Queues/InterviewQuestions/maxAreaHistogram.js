@@ -33,8 +33,8 @@ function r(arr) {
 }
 
 function largestRectangleArea(heights) {
-    let left = l(heights);
-    let right = r(heights);
+    let left = l(heights); //out - [-1, 0, 1, 1, 3, 4, 5]
+    let right = r(heights); //out - [6, 6, 3, 6, 6, 6, -1]
     let max = 0;
 
     for (let i = 0; i < heights.length; i++) {

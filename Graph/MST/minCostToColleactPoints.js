@@ -32,6 +32,7 @@ function minCostConnectPoints(points) {
 
     // Sort edges by cost
     edges.sort((a, b) => a[0] - b[0]);
+    console.log(edges);
 
     let totalCost = 0;
     let edgesUsed = 0;
