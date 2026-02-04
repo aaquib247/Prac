@@ -3,10 +3,8 @@ function getMaximumGold(grid) {
     const m = grid[0].length;
     let maxGold = 0;
 
-    const dirs = [[1,0], [-1,0], [0,1], [0,-1]];
-
     function dfs(r, c) {
-        // out of bounds or no gold
+        // base case
         if (r < 0 || c < 0 || r >= n || c >= m || grid[r][c] === 0) {
             return 0;
         }
@@ -14,16 +12,18 @@ function getMaximumGold(grid) {
         let gold = grid[r][c];
         grid[r][c] = 0; // mark visited
 
-        let best = 0;
-        for (let [dr, dc] of dirs) {
-            best = Math.max(best, dfs(r + dr, c + dc));
-        }
+        // separate DFS calls (no loop)
+        let up    = dfs(r - 1, c);
+        let down  = dfs(r + 1, c);
+        let left  = dfs(r, c - 1);
+        let right = dfs(r, c + 1);
 
         grid[r][c] = gold; // backtrack
-        return gold + best;
+
+        return gold + Math.max(up, down, left, right);
     }
 
-    // try starting from every gold cell
+    // try starting DFS from every cell
     for (let i = 0; i < n; i++) {
         for (let j = 0; j < m; j++) {
             if (grid[i][j] > 0) {
@@ -34,6 +34,7 @@ function getMaximumGold(grid) {
 
     return maxGold;
 }
+
 
 grid = [
   [0,6,0],

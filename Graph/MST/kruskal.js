@@ -68,4 +68,4 @@ const edges = [
 ];
 
 const mstWt = Solution.spanningTree(V, edges);
-console.log("The sum of all the edge weights: " + mstWt);
+console.log("The sum of all the edge weights: " + mstWt); 

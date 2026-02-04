@@ -56,8 +56,7 @@ function fun(arr) {
 
 // Example usage
 let res = fun([120, 100, 60, 80, 90, 110, 115]) 
-
-console.log(res);  
+console.log("Indices of next greater elements:", res);  // Output the indices of the next greater elements
 
 for (let i = 0; i < res.length; i++) {
     if (res[i] !== -1) {

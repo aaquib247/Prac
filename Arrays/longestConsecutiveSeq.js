@@ -58,4 +58,5 @@ function longestConsecutive(nums) {
 // Example usage
 const nums = [100, 4, 200, 1, 3, 2];
 console.log("Longest Consecutive Sequence Length:", longestConsecutive(nums)); // Output: 4
-
+//Question is to find the length of longest consecutive sequence in an unsorted array.
+//Example: [100, 4, 200, 1, 3, 2] => 4 (because 1, 2, 3, 4 is the longest consecutive sequence)

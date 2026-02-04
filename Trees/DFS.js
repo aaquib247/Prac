@@ -131,6 +131,7 @@ var kthSmallest = function (root, k) {
 
 //https://leetcode.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/
 var buildTree = function (preorder, inorder) {
+    //TC - O(n^2) due to slice and for loop
     if (preorder.length == 0)
         return null;
 

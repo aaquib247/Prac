@@ -59,8 +59,9 @@ function shortestPath_Undirected(n, m, edges) {
 }
 
 class MinHeap {
-    constructor() {
+    constructor(compare) {
         this.heap = [];
+        this.compare = compare || ((a, b) => a[1] - b[1]); // default compare on distance
     }
 
     push(value) {
@@ -69,9 +70,10 @@ class MinHeap {
     }
 
     pop() {
+        if (this.isEmpty()) return null;
         const min = this.heap[0];
         const end = this.heap.pop();
-        if (this.heap.length > 0) {
+        if (!this.isEmpty()) {
             this.heap[0] = end;
             this.bubbleDown(0);
         }
@@ -87,7 +89,7 @@ class MinHeap {
         while (index > 0) {
             const parentIndex = Math.floor((index - 1) / 2);
             const parent = this.heap[parentIndex];
-            if (element[0] >= parent[0]) break;
+            if (this.compare(element, parent) >= 0) break;
             this.heap[index] = parent;
             index = parentIndex;
         }
@@ -97,30 +99,33 @@ class MinHeap {
     bubbleDown(index) {
         const length = this.heap.length;
         const element = this.heap[index];
+
         while (true) {
-            const leftChildIndex = 2 * index + 1;
-            const rightChildIndex = 2 * index + 2;
+            const leftIndex = 2 * index + 1;
+            const rightIndex = 2 * index + 2;
             let swap = null;
-            if (leftChildIndex < length) {
-                const leftChild = this.heap[leftChildIndex];
-                if (leftChild[0] < element[0]) swap = leftChildIndex;
+
+            if (leftIndex < length && this.compare(this.heap[leftIndex], element) < 0) {
+                swap = leftIndex;
             }
-            if (rightChildIndex < length) {
-                const rightChild = this.heap[rightChildIndex];
-                if (
-                    (swap === null && rightChild[0] < element[0]) ||
-                    (swap !== null && rightChild[0] < this.heap[swap][0])
-                ) {
-                    swap = rightChildIndex;
-                }
+
+            if (
+                rightIndex < length &&
+                this.compare(this.heap[rightIndex], swap === null ? element : this.heap[swap]) < 0
+            ) {
+                swap = rightIndex;
             }
+
             if (swap === null) break;
+
             this.heap[index] = this.heap[swap];
             index = swap;
         }
+
         this.heap[index] = element;
     }
 }
+
 
 const n = 5;
 const m = 6;

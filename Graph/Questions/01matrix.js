@@ -62,3 +62,5 @@ function updateMatrix(mat) {
 
 console.log(updateMatrix([[0,0,0],[0,1,0],[1,1,1]]))
 
+//TC : O(m*n)
+//SC : O(m*n)

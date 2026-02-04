@@ -28,7 +28,7 @@ function twoSum(n, arr, target) {
 }
 
 // for index
-
+//TC - O(N) and SC -O(N)
 function twoSum(n, arr, target) {
     let indexMap = new Map(); // Stores number -> index
 

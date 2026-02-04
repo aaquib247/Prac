@@ -77,7 +77,10 @@ function minimumEffort(heights) {
     while (!minHeap.isEmpty()) {
         const { distance, row, col } = minHeap.pop();
 
-        if (row === n - 1 && col === m - 1) return distance;
+        if (row === n - 1 && col === m - 1) {
+             console.log(dist);
+            return distance;
+        }
 
         for (const [dr, dc] of directions) {
             const newRow = row + dr;
@@ -104,19 +107,19 @@ const heights1 = [
     [5, 3, 5]
 ];
 console.log(minimumEffort(heights1)); // Output: 2
+//TC O(NlogN) or nmlognm ? 
+// const heights2 = [
+//     [1, 2, 3],
+//     [3, 8, 4],
+//     [5, 3, 5]
+// ];
+// console.log(minimumEffort(heights2)); // Output: 1
 
-const heights2 = [
-    [1, 2, 3],
-    [3, 8, 4],
-    [5, 3, 5]
-];
-console.log(minimumEffort(heights2)); // Output: 1
-
-const heights3 = [
-    [1, 2, 1, 1, 1],
-    [1, 2, 1, 2, 1],
-    [1, 2, 1, 2, 1],
-    [1, 2, 1, 2, 1],
-    [1, 1, 1, 2, 1]
-];
-console.log(minimumEffort(heights3)); // Output: 0
+// const heights3 = [
+//     [1, 2, 1, 1, 1],
+//     [1, 2, 1, 2, 1],
+//     [1, 2, 1, 2, 1],
+//     [1, 2, 1, 2, 1],
+//     [1, 1, 1, 2, 1]
+// ];
+// console.log(minimumEffort(heights3)); // Output: 0

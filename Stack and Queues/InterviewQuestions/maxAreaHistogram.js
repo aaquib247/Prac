@@ -48,7 +48,7 @@ function largestRectangleArea(heights) {
 // Example Usage:
 // let heights = [6, 2, 5, 4, 5, 1, 6];
 let heights = [2,1,5,6,2,3];
-console.log(largestRectangleArea(heights)); // Output: 12
+console.log(largestRectangleArea(heights)); // Output: 10
 
 
 

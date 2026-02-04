@@ -1,29 +1,20 @@
-var longestValidParentheses = function (s) {
-    let stack = [];
-    let maxLen = 0;
+let graph = new Graph();
+graph.addVertex('A');
+graph.addVertex('B');
+graph.addVertex('C');
+graph.addVertex('D');
+graph.addEdge('A', 'B');
+graph.addEdge('B', 'C');
+graph.addEdge('C', 'D');
+graph.addEdge('D', 'A');
 
-    for (let i = 0; i < s.length; i++) {
-        let ch = s[i];
+console.log(graph.hasCycle()); // Output: true (Cycle exists)
 
-        if (ch === '(' && (st[st.length - 1] === ')' || st.length === 0)) {
-            stack.push(ch);
-        }
-        else {
-            if (st.length > 0 && ch === ')' && st[st.length - 1] !== ')') {
-                st.push(ch);
-                maxLen = Math.max(maxLen, st.length);
-            }
-            else if (ch === '(') {
-                st.pop()
-            } else {
-                st = [];
-                continue
-            }
-        }
-    }
+let graph2 = new Graph();
+graph2.addVertex('A');
+graph2.addVertex('B');
+graph2.addVertex('C');
+graph2.addEdge('A', 'B');
+graph2.addEdge('B', 'C');
 
-    return maxLen;
-};
-
-console.log(longestValidParentheses("()(() ")); // Output: 2
-console.log(longestValidParentheses(")()())"));  //output: 4
+console.log(graph2.hasCycle()); // Output: false (No cycle exists)
