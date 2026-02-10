@@ -35,6 +35,8 @@ function pacificAtlantic(heights) {
     }
 
     // Result: cells reachable by both oceans
+    console.log('Pacific:', pacific);
+    console.log('Atlantic:', atlantic);
     const result = [];
     for (let r = 0; r < rows; r++) {
         for (let c = 0; c < cols; c++) {

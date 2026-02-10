@@ -1,6 +1,41 @@
 
 //Intuition: For each cell containing '1', we can form a square whose size is determined by the minimum size of squares that can be formed to the right, down, and diagonally down-right of that cell.
 // We add 1 to this minimum size to account for the current cell itself. If a cell contains '0', it cannot contribute to any square, so its size is 0.
+//My sol:
+/**
+ * @param {character[][]} matrix
+ * @return {number}
+ */
+var maximalSquare = function (matrix) {
+    const rows = matrix.length;
+    const cols = matrix[0].length;
+    const dp = Array.from({ length: rows }, () => Array(cols).fill(-1));
+
+    function dfs(r, c) {
+
+        if(c >= cols || r >= rows || matrix[r][c] === '0')
+            return 0;
+
+        if (dp[r][c] !== -1) return dp[r][c];
+
+        return dp[r][c] = 1 + Math.min(dfs(r + 1, c), dfs(r + 1, c + 1), dfs(r, c + 1))
+    }
+
+    let maxSquare = 0;
+    for (let i = 0; i < rows; i++) {
+        for (let j = 0; j < cols; j++) {
+            if (matrix[i][j] === '1') {
+                maxSquare = Math.max(maxSquare, dfs(i, j));
+            }
+        }
+    }
+
+    return maxSquare * maxSquare; // Area = size²
+};
+
+//------------------------------------------------------------------
+
+
 function maximalSquare(matrix) {
     const rows = matrix.length;
     const cols = matrix[0].length;
@@ -69,4 +104,3 @@ var maximalSquare = function(matrix) {
 
     return maxSide * maxSide; // return area
 };
-

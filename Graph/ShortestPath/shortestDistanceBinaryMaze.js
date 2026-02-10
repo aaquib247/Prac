@@ -11,9 +11,9 @@ function shortestPath(grid, source, destination) {
     // Create a queue for BFS: stores [row, col, distance]
     const queue = [[startRow, startCol, 0]];
 
-    // Initialize distance matrix with Infinity
-    const dist = Array.from({ length: n }, () => Array(m).fill(Infinity));
-    dist[startRow][startCol] = 0;
+    // Create a visited array to track visited cells
+    const visited = Array.from({ length: n }, () => Array(m).fill(false));
+    visited[startRow][startCol] = true;
 
     // Directions for Up, Right, Down, Left
     const directions = [[-1, 0], [0, 1], [1, 0], [0, -1]];
@@ -26,22 +26,20 @@ function shortestPath(grid, source, destination) {
             const newRow = row + dr;
             const newCol = col + dc;
 
-            // Check boundaries and if the cell is valid (value 1)
+            // Check boundaries, if the cell is valid (value 1), and not visited
             if (
                 newRow >= 0 && newRow < n &&
                 newCol >= 0 && newCol < m &&
                 grid[newRow][newCol] === 1 &&
-                currentDist + 1 < dist[newRow][newCol]
+                !visited[newRow][newCol]
             ) {
-                // Update the distance to the new cell
-                dist[newRow][newCol] = currentDist + 1;
-
-                // Check if we have reached the destination
+                // If we have reached the destination, return the distance
                 if (newRow === destRow && newCol === destCol) {
                     return currentDist + 1;
                 }
 
-                // Add the new cell to the queue
+                // Mark the cell as visited and add it to the queue
+                visited[newRow][newCol] = true;
                 queue.push([newRow, newCol, currentDist + 1]);
             }
         }
@@ -51,8 +49,8 @@ function shortestPath(grid, source, destination) {
     return -1;
 }
 
-//TC is O(N*M) where N is number of rows and M is number of columns
-//SC is O(N*M) for distance matrix and queue in worst case
+// Time Complexity: O(N * M) where N is the number of rows and M is the number of columns
+// Space Complexity: O(N * M) for the visited matrix and the queue in the worst case
 
 // Example usage
 const grid1 = [
