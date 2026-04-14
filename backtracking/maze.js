@@ -48,3 +48,37 @@ const maze = [
 
 console.log(ratInMaze(maze));
 // Output: [ 'DDRDRR', 'DRDDRR' ]
+
+//without visited array, we can mark the cell as blocked (0) and unmark it (1) during backtracking, but this modifies the input maze which may not be desirable in all cases.
+
+function ratInMaze(maze) {
+    const n = maze.length;
+    const res = [];
+
+    function dfs(i, j, path) {
+        // Out of bounds or blocked
+        if (
+            i < 0 || j < 0 || i >= n || j >= n ||
+            maze[i][j] === 0
+        ) return;
+
+        // Destination reached
+        if (i === n - 1 && j === n - 1) {
+            res.push(path);
+            return;
+        }
+
+        maze[i][j] = 0; // mark as visited
+
+        dfs(i + 1, j, path + 'D'); // Down
+        dfs(i, j + 1, path + 'R'); // Right
+        dfs(i - 1, j, path + 'U'); // Up
+        dfs(i, j - 1, path + 'L'); // Left
+
+        maze[i][j] = 1; // unmark (backtrack)       
+    }
+
+    if (maze[0][0] === 1) dfs(0, 0, '');
+
+    return res;
+}   

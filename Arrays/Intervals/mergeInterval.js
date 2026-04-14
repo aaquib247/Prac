@@ -5,20 +5,20 @@ var merge = function(intervals) {
   // Sort intervals by the starting value
   intervals.sort((a, b) => a[0] - b[0]);
 
-  const merged = [];
+  let res = [intervals[0]];
 
-  for (let i = 0; i < intervals.length; i++) {
-    // If the merged array is empty or no overlap, simply add the interval
-    if (merged.length === 0 || merged[merged.length - 1][1] < intervals[i][0]) {
-      merged.push(intervals[i]);
-    } else {
-      // There is overlap, so merge the intervals
-      merged[merged.length - 1][1] = Math.max(merged[merged.length - 1][1], intervals[i][1]);
-      // why max --> edge case -- [[1,4], [2,3]] output - [1,4]
+  for (let i = 1; i < intervals.length; i++) {
+    let last = res[res.length - 1];
+    let curr = intervals[i];
+    if(last[1] >= curr[0]){
+        last[1] = Math.max(last[1],curr[1])
+    }
+    else{
+        res.push(curr)
     }
   }
 
-  return merged;
+  return res;
 };
 
 const intervals = [

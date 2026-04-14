@@ -41,7 +41,7 @@ grid = [
   [5,8,7],
   [0,9,0]
 ]
-console.log(getMaximumGold(grid)); // Output: 24
+console.log(getMaximumGold(grid)); // Output: 24 by collecting 9 + 8 + 7 from the middle row and 6 from the top row
 
 //TC: O(N * M * 4^(N*M)) in worst case where all cells have gold
 //SC: O(N * M) for recursion stack in worst case

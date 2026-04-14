@@ -1,20 +1,28 @@
-let graph = new Graph();
-graph.addVertex('A');
-graph.addVertex('B');
-graph.addVertex('C');
-graph.addVertex('D');
-graph.addEdge('A', 'B');
-graph.addEdge('B', 'C');
-graph.addEdge('C', 'D');
-graph.addEdge('D', 'A');
+class Node {
+  constructor(val){
+    this.val = val;
+    this.left = null;
+    this.right =null;
+  }
+}
 
-console.log(graph.hasCycle()); // Output: true (Cycle exists)
+var minDepth = function(root) {
 
-let graph2 = new Graph();
-graph2.addVertex('A');
-graph2.addVertex('B');
-graph2.addVertex('C');
-graph2.addEdge('A', 'B');
-graph2.addEdge('B', 'C');
+    if(!root) return 0;
+    
+    if(!root.left) return minDepth(root.right) + 1;
+    if(!root.right) return minDepth(root.left) + 1;
+    
+    let left = minDepth(root.left);
+    let right = minDepth(root.right);
 
-console.log(graph2.hasCycle()); // Output: false (No cycle exists)
+    return Math.min(left,right) + 1;
+
+};
+
+const root = new Node(1);
+root.left = new Node(2);
+root.left.left = new Node(4);
+root.right = new Node(3)
+
+console.log(minDepth(root))

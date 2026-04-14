@@ -1,42 +1,32 @@
-Class Operation{
-    constructor(){
-        let Minimum = -Infinity;
-        let Maximum = Infinity;
-        let map = new Map();
-        let arr = []
-    }
+function bk(s){
+    let n = s.length;
 
-    update(data){
-        if(!map.has(data)){
-            map.set(data.timeStamp, data.score);
-      }
-      map.set(data.timeStamp, data.score);
-      arr.push({data.timeStamp, data.score})
-     
-      Minimum = Math.min(Minimum, data.score)
-      Maximum = Math.max(Maximum, data.score)
-}
-
-getMin(){
-    return Minimum
-}
-
-getMaximum(){
-    return Maximum
-}    
-
-getLatest(){
-    arr.sort((a,b) => b.timeStamp - a.timeStamp)
-    return arr[arr.length - 1].score
-}
-
-getAverage(t1,t2){
-    let sum = 0;
-    for( const [time,score] of arr){
-        if(time >= t1 && time <= t2){
-            sum += score
+     function isPalin(s){
+            let l = 0;
+            let r = s.length - 1;
+            while(l<r){
+                if(s[l] !== s[r])
+                 return false;
+            l++;r--;
+            }
+            return true;
         }
+    
+    
+    function f(start){
+        if(start === s.length) return 0;
+        
+        let max = -Infinity;
+
+        for(let end=start;end<n;end++){
+            let str = s.slice(start,end+1);
+            if(isPalin(str)){
+                max = Math.max(max, 1 + f(end+1));
+            }      
+        }
+        return max;
     }
-    return sum / arr.length
+    return f(0) - 1;
 }
 
+console.log(bk('aab'));

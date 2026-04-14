@@ -49,6 +49,7 @@ function largestRectangleArea(heights) {
 // let heights = [6, 2, 5, 4, 5, 1, 6];
 let heights = [2,1,5,6,2,3];
 console.log(largestRectangleArea(heights)); // Output: 10
+//Intuition - we are finding the next smaller element on the left and right for each element in the histogram. The width of the rectangle that can be formed with the current height is determined by the distance between these two smaller elements. By calculating the area for each height and keeping track of the maximum, we can find the largest rectangle in the histogram efficiently.
 
 
 

@@ -431,7 +431,7 @@ function minWindow(s, t) {
             window.set(leftChar, window.get(leftChar) - 1);
             if (need.has(leftChar) && window.get(leftChar) < need.get(leftChar)) {
                 have--;
-            }
+            }   
             left++;
         }
     }

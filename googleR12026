@@ -1,0 +1,57 @@
+Problem Statement:Design a real-time scoring system that tracks scores with timestamps and provides various query operations.Requirements:You need to implement a class Operation (or ScoreTracker) with the following methods:
+update(timestamp, score)
+getMin()
+getMin()
+getLatest()
+getAverage(t1, t2)
+
+
+
+1. update(timestamp, score)
+Add or update a score at a given timestamp.
+Behavior:
+
+If the timestamp already exists, update the score (overwrite the old score)
+If the timestamp is new, add it
+Track the minimum and maximum scores seen so far
+
+Example:
+update(5, 0.3)   // Add: timestamp 5 with score 0.3
+update(8, 4.0)   // Add: timestamp 8 with score 4.0
+update(6, 3.0)   // Add: timestamp 6 with score 3.0
+update(5, 0.9)   // Update: timestamp 5 now has score 0.9 (not 0.3)
+
+
+2. Return the minimum score across all timestamps.
+After updates: {5: 0.3, 8: 4.0, 6: 3.0}
+getMin() → 0.3
+
+3. Return the maximum score across all timestamps.
+After updates: {5: 0.3, 8: 4.0, 6: 3.0}
+getMax() → 4.0
+
+4. getLatest()
+Return the score at the latest (most recent) timestamp.
+Important: "Latest" means the highest timestamp value, NOT the most recently added entry!
+Example:
+// Order of insertion:
+update(5, 0.3)   // First inserted
+update(8, 4.0)   // Second inserted
+update(6, 3.0)   // Third inserted (last insertion)
+
+// But latest by timestamp:
+Timestamps: 5, 8, 6
+Latest timestamp = 8 (highest value)
+
+getLatest() → 4.0  // Score at timestamp 8
+Key Point: Even though timestamp 6 was inserted last, timestamp 8 is the "latest" because 8 > 6 > 5.
+
+5.getAverage(t1, t2)
+Return the average score of all entries with timestamps in the range [t1, t2] (inclusive).
+Example:
+Entries: {5: 0.3, 8: 4.0, 6: 3.0}
+
+getAverage(5, 8) → (0.3 + 3.0 + 4.0) / 3 = 2.433...
+getAverage(6, 8) → (3.0 + 4.0) / 2 = 3.5
+getAverage(1, 4) → 0 or null (no entries in range)
+ 
