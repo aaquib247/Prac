@@ -111,7 +111,7 @@ var lowestCommonAncestor = function (root, p, q) {
     if (right != null && left != null) return root;
 
     // only one side found, no need to check the other
-    return left == null ? right : left;
+    return left == null ? right : left; //or return left||right
 
 };
 

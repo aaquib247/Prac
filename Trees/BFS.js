@@ -108,6 +108,45 @@ var rightSideView = function (root) {
     return result;
 };
 
+// Left View [1,2,5]
+//    1  <--
+//   / \
+//  2   3
+//   \   \
+//    5   4
+var leftSideView = function (root) {
+    let result = [];
+
+    if (!root) {
+        return result;
+    }
+
+    let queue = [];
+    queue.push(root);
+
+    while (queue.length > 0) {
+        let levelSize = queue.length;
+
+        for (let i = 0; i < levelSize; i++) {
+            let currentNode = queue.shift();
+
+            // 👇 only change: take first node
+            if (i === 0) {
+                result.push(currentNode.val);
+            }
+
+            if (currentNode.left) {
+                queue.push(currentNode.left);
+            }
+            if (currentNode.right) {
+                queue.push(currentNode.right);
+            }
+        }
+    }
+
+    return result;
+};
+
 // ZigZag Traversal - In every alternate level print in reverse order 
 var zigzagLevelOrder = function (root) {
 
