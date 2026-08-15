@@ -1,51 +1,70 @@
-var NewsAgency = /** @class */ (function () {
-    function NewsAgency() {
-        this.observers = [];
+
+class EmailService {
+    update(orderId) {
+        console.log(`Email sent for order ${orderId}`);
     }
-    NewsAgency.prototype.subscribe = function (observer) {
+}
+
+class InventoryService {
+    update(orderId) {
+        console.log(`Inventory updated for order ${orderId}`);
+    }
+}
+
+class InvoiceService {
+    update(orderId) {
+        console.log(`Invoice generated for order ${orderId}`);
+    }
+}
+
+class Order {
+    constructor() {
+        this.observers = []; // list of subscribers (observers)
+    }
+
+    // subscribe (add observer)
+    subscribe(observer) {
         this.observers.push(observer);
-    };
-    NewsAgency.prototype.unsubscribe = function (observer) {
-        this.observers = this.observers.filter(function (obs) { return obs !== observer; });
-    };
-    NewsAgency.prototype.notify = function (data) {
-        for (var _i = 0, _a = this.observers; _i < _a.length; _i++) {
-            var observer = _a[_i];
-            observer.update(data);
-        }
-    };
-    // simulate publishing a news article
-    NewsAgency.prototype.publishNews = function (news) {
-        console.log("NewsAgency: Publishing news: ".concat(news));
-        this.notify(news);
-    };
-    return NewsAgency;
-}());
-var EmailSubscriber = /** @class */ (function () {
-    function EmailSubscriber(name) {
-        this.name = name;
     }
-    EmailSubscriber.prototype.update = function (news) {
-        console.log("".concat(this.name, " received news via Email: ").concat(news));
-    };
-    return EmailSubscriber;
-}());
-var SMSSubscriber = /** @class */ (function () {
-    function SMSSubscriber(name) {
-        this.name = name;
+
+    // unsubscribe (optional)
+    unsubscribe(observer) {
+        this.observers = this.observers.filter(obs => obs !== observer);
     }
-    SMSSubscriber.prototype.update = function (news) {
-        console.log("".concat(this.name, " received news via SMS: ").concat(news));
-    };
-    return SMSSubscriber;
-}());
-var agency = new NewsAgency();
-var emailUser = new EmailSubscriber("Alice");
-var smsUser = new SMSSubscriber("Bob");
-agency.subscribe(emailUser);
-agency.subscribe(smsUser);
-agency.publishNews("TypeScript 5.5 released!");
-agency.publishNews("Observer pattern is awesome!");
-// You can also unsubscribe
-agency.unsubscribe(emailUser);
-agency.publishNews("Alice won't get this news.");
+
+    // notify all observers
+    notify(orderId) {
+        this.observers.forEach(observer => observer.update(orderId));
+
+        // for (let i = 0; i < this.observers.length; i++) {
+        //     this.observers[i].update(orderId);
+        // }
+
+        // for (const observer of this.observers) {
+        //     observer.update(orderId);
+        // }
+    }
+
+    // main action
+    placeOrder(orderId) {
+        console.log("Order placed:", orderId);
+
+        // notify all observers
+        this.notify(orderId);
+    }
+}
+
+const order = new Order();
+
+// create observers
+const email = new EmailService();
+const inventory = new InventoryService();
+const invoice = new InvoiceService();
+
+// subscribe observers
+order.subscribe(email);
+order.subscribe(inventory);
+order.subscribe(invoice);
+
+// trigger event
+order.placeOrder(101);

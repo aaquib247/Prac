@@ -1,6 +1,6 @@
 //You can buy and sell i.e do Transaction n times;
 function maxProfit(prices) {
-    let n = prices.length - 1
+    let n = prices.length;
 
     function util(ind, buy) {
 

@@ -19,6 +19,10 @@ function sortArray(arr, n) {
 //Dutch National flag algorithm.
 //TC - O(N) and SC - O(1)
 
+//intuion is to maintain three pointers low, mid and high and swap the values accordingly. 
+// We will keep the 0s at the beginning, 1s in the middle and 2s at the end. 
+// We will iterate through the array and swap the values accordingly until mid is less than or equal to high.
+
 function sortArray(arr, n) {
     let low = 0, mid = 0, high = n - 1;
 
@@ -41,6 +45,7 @@ function sortArray(arr, n) {
 const n = 6;
 const arr = [0, 2, 1, 2, 0, 1];
 sortArray(arr, n);
+//output: 0 0 1 1 2 2
 
 console.log("After sorting:");
 console.log(arr.join(" "));

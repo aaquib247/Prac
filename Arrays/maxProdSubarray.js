@@ -40,4 +40,26 @@ function maxProductSubArray(arr) {
 let arr = [2,3,-4,2];
 console.log("The maximum product subarray is: " + maxProductSubArray(arr));
 
+////
+var maxProduct = function(nums) {
+    let maxProd = nums[0];
+    let minProd = nums[0];
+    let result = nums[0];
+
+    for (let i = 1; i < nums.length; i++) {
+        let n = nums[i];
+
+        if (n < 0) {
+            [maxProd, minProd] = [minProd, maxProd];
+        }
+
+        maxProd = Math.max(n, maxProd * n);
+        minProd = Math.min(n, minProd * n);
+
+        result = Math.max(result, maxProd);
+    }
+
+    return result;
+};
+
 

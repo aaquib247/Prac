@@ -1,28 +1,48 @@
-class Node {
-  constructor(val){
-    this.val = val;
-    this.left = null;
-    this.right =null;
-  }
+import { Heap } from "heap-js";
+class MedianFinder {
+    constructor() {
+        this.minHeap = new Heap();
+        this.maxHeap = new Heap((a, b) => b - a);
+    }
+
+    addNum(num) {
+
+        if (this.maxHeap.size() === 0 || this.maxHeap.peek() >= num) {
+            this.maxHeap.push(num);
+        } else {
+            this.minHeap.push(num);
+        }
+
+        // Balance the heaps
+        if (this.maxHeap.size() > this.minHeap.size() + 1) {
+            this.minHeap.push(this.maxHeap.pop());
+        } else if (this.minHeap.size() > this.maxHeap.size()) {
+            this.maxHeap.push(this.minHeap.pop());
+        }
+
+    }
+
+    findMedian() {
+
+        if (this.maxHeap.size() === this.minHeap.size()) {
+            return (this.maxHeap.peek() + this.minHeap.peek()) / 2;
+        } else {
+            return this.maxHeap.peek();
+        }
+    }
+
 }
 
-var minDepth = function(root) {
 
-    if(!root) return 0;
-    
-    if(!root.left) return minDepth(root.right) + 1;
-    if(!root.right) return minDepth(root.left) + 1;
-    
-    let left = minDepth(root.left);
-    let right = minDepth(root.right);
 
-    return Math.min(left,right) + 1;
 
-};
+const medianFinder = new MedianFinder();
 
-const root = new Node(1);
-root.left = new Node(2);
-root.left.left = new Node(4);
-root.right = new Node(3)
+medianFinder.addNum(1);
+console.log(medianFinder.findMedian());  // Output: 1
 
-console.log(minDepth(root))
+medianFinder.addNum(2);
+console.log(medianFinder.findMedian());  // Output: 1.5
+
+medianFinder.addNum(3);
+console.log(medianFinder.findMedian());  // Output: 2
