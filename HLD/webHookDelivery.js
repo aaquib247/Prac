@@ -1,59 +1,110 @@
-// STORAGE
-const registry = new Map();
-// { 'user.login': [{url, secret}] }
+// // STORAGE
+// const registry = new Map();
+// // { 'user.login': [{url, secret}] }
 
-// STEP 1 — Register
-function register(eventType, url, secret) {
-  const list = registry.get(eventType) || [];
-  list.push({ url, secret });
-  registry.set(eventType, list);
-}
+// // STEP 1 — Register
+// function register(eventType, url, secret) {
+//   const list = registry.get(eventType) || [];
+//   list.push({ url, secret });
+//   registry.set(eventType, list);
+// }
 
-// STEP 2 — Ingest
-async function ingest(event) {
-  const subscribers = registry.get(event.type) || [];
-  const batches = chunk(subscribers, 5); // max 5 at once
-  for (const batch of batches) {
-    await Promise.all(batch.map(sub => deliver(event, sub)));
-  }
-}
+// // STEP 2 — Ingest
+// async function ingest(event) {
+//   const subscribers = registry.get(event.type) || [];
+//   const batches = chunk(subscribers, 5); // max 5 at once
+//   for (const batch of batches) {
+//     await Promise.all(batch.map(sub => deliver(event, sub)));
+//   }
+// }
 
-// STEP 3 — Deliver
-async function deliver(event, subscriber, attempt = 1) {
-  const sig = sign(event, subscriber.secret); // HMAC
-  const iKey = `${event.type}:${event.id}`;   // idempotency
+// // STEP 3 — Deliver
+// async function deliver(event, subscriber, attempt = 1) {
+//   const sig = sign(event, subscriber.secret); // HMAC
+//   const iKey = `${event.type}:${event.id}`;   // idempotency
 
-  try {
-    const res = await fetch(subscriber.url, {
-      method: 'POST',
-      body: JSON.stringify(event),
-      headers: { 'x-signature': sig, 'x-idempotency-key': iKey }
-    });
+//   try {
+//     const res = await fetch(subscriber.url, {
+//       method: 'POST',
+//       body: JSON.stringify(event),
+//       headers: { 'x-signature': sig, 'x-idempotency-key': iKey }
+//     });
 
-    if (res.status >= 200 && res.status < 300) {
-      console.log('Delivered ✓');
-    } else {
-      retry(event, subscriber, attempt);
-    }
-  } catch (e) {
-    retry(event, subscriber, attempt);
-  }
-}
+//     if (res.status >= 200 && res.status < 300) {
+//       console.log('Delivered ✓');
+//     } else {
+//       retry(event, subscriber, attempt);
+//     }
+//   } catch (e) {
+//     retry(event, subscriber, attempt);
+//   }
+// }
 
-// STEP 4 — Retry
-function retry(event, subscriber, attempt) {
-  if (attempt > 5) { dlq.push({ event, subscriber }); return; }
-  const delay = Math.pow(2, attempt) * 1000; // 2s 4s 8s 16s 32s
-  setTimeout(() => deliver(event, subscriber, attempt + 1), delay);
-}
+// // STEP 4 — Retry
+// function retry(event, subscriber, attempt) {
+//   if (attempt > 5) { dlq.push({ event, subscriber }); return; }
+//   const delay = Math.pow(2, attempt) * 1000; // 2s 4s 8s 16s 32s
+//   setTimeout(() => deliver(event, subscriber, attempt + 1), delay);
+// }
 
-// HELPERS
+// // HELPERS
+// const dlq = [];
+// const chunk = (arr, size) => 
+//   Array.from({ length: Math.ceil(arr.length / size) }, 
+//     (_, i) => arr.slice(i * size, i * size + size));
+// const sign = (event, secret) => `hmac(${JSON.stringify(event)},${secret})`;
+
+// // RUN
+// register('user.login', 'https://client.com/hook', 'secret123');
+// ingest({ type: 'user.login', id: '001', userId: 'u1' });
+
+
+
+const registry = {};
 const dlq = [];
-const chunk = (arr, size) => 
-  Array.from({ length: Math.ceil(arr.length / size) }, 
-    (_, i) => arr.slice(i * size, i * size + size));
-const sign = (event, secret) => `hmac(${JSON.stringify(event)},${secret})`;
+
+// 1. save subscriber
+function register(eventType, url) {
+  if (!registry[eventType]) registry[eventType] = [];
+  registry[eventType].push(url);
+}
+
+// 2. split into batches
+function chunk(arr, size) {
+  const batches = [];
+  for (let i = 0; i < arr.length; i += size) {
+    batches.push(arr.slice(i, i + size));
+  }
+  return batches;
+}
+
+// 3. send to one URL, retry on fail
+async function deliver(url, event, attempt = 1) {
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(event)
+    });
+    if (!res.ok) throw new Error('Failed');
+    console.log('Delivered to', url);
+  } catch (err) {
+    if (attempt > 3) { dlq.push({ url, event }); return; }
+    const delay = Math.pow(2, attempt) * 1000;
+    setTimeout(() => deliver(url, event, attempt + 1), delay);
+  }
+}
+
+// 4. fire event — send to all in batches of 5
+async function ingest(event) {
+  const subscribers = registry[event.type] || [];
+  const batches = chunk(subscribers, 5);
+  for (const batch of batches) {
+    await Promise.all(batch.map(url => deliver(url, event)));
+  }
+}
 
 // RUN
-register('user.login', 'https://client.com/hook', 'secret123');
-ingest({ type: 'user.login', id: '001', userId: 'u1' });
+register('payment.success', 'https://amazonpay.com/hook');
+register('payment.success', 'https://analytics.com/hook');
+ingest({ type: 'payment.success', orderId: '123' });
