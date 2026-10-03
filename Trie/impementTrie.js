@@ -62,3 +62,17 @@ console.log(trie.search("app"));     // true
 // | Insert     | O(m)            | O(m)                         |
 // | Search     | O(m)            | O(1)                         |
 // | StartsWith | O(m)            | O(1)                         |
+
+//diagram for the trie after inserting "apple" and "app"
+//
+//        root
+//         |
+//         a
+//         |
+//         p
+//         |
+//         p (isEndOfWord: true)
+//         |
+//         l
+//         |
+//         e (isEndOfWord: true)

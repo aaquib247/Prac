@@ -7,6 +7,8 @@ class ListNode {
   }
 }
 
+
+
 function mergeKLists(lists) {
   // Create a min-heap using the heap library
   const minHeap = new Heap((a, b) => a.val - b.val);

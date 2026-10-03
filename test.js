@@ -1,24 +1,31 @@
-var productExceptSelf = function(nums) {
-    const n = nums.length;
-    const output = new Array(n).fill(1);
+const { Heap } = require("heap-js");
 
-    // Step 1: Compute left products
-    let left = 1;
-    for (let i = 0; i < n; i++) {
-        output[i] = left;
-        left *= nums[i];
+function frequencySort(nums) {
+    const freq = new Map();
+    let maxHeap = new Heap((a,b) => b[1] - a[1]);
+
+    // Count frequencies
+    for (const num of nums) {
+        freq.set(num, (freq.get(num) || 0) + 1);
     }
 
-    // Step 2: Multiply by right products
-    let right = 1;
-    for (let i = n - 1; i >= 0; i--) {
-        output[i] *= right;
-        right *= nums[i];
+    // Put each unique number into heap
+    for (const [num, count] of freq) {
+        maxHeap.add([num, count]);
     }
 
-    return output;
-};
-console.log(productExceptSelf([1,2,3,4])); 
-// Output: [24,12,8,6]
+    const result = [];
 
-//intuition: for each element, the product of all elements to its left and the product of all elements to its right give the desired result without including the element itself.
+    // Extract from heap
+    while (maxHeap.size() > 0) {
+        const [num, count] = maxHeap.pop();
+
+        for (let i = 0; i < count; i++) {
+            result.push(num);
+        }
+    }
+
+    return result;
+}
+
+console.log(frequencySort([1, 1, 2, 2, 2, 3]));

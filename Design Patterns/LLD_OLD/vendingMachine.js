@@ -1,149 +1,66 @@
-// 🍫 Product
-class Product {
-  constructor(id, name, price, qty) {
-    this.id = id;
-    this.name = name;
-    this.price = price;
-    this.qty = qty;
+class NoMoney {
+  insert(machine) {
+    console.log("Money inserted");
+    machine.setState(new HasMoney());
+  }
+
+  selectItem(machine) {
+    console.log("Please insert money");
+  }
+
+  cancel(machine) {
+    console.log("Nothing to cancel");
   }
 }
 
-// 💡 Base State
-class State {
-  insertMoney(_) {}
-  selectProduct(_) {}
-  dispense() {}
-  cancel() {}
-}
-
-// 🔵 Idle State
-class IdleState extends State {
-  constructor(machine) {
-    super();
-    this.machine = machine;
+class HasMoney {
+  insert(machine) {
+    console.log("Money already inserted");
   }
 
-  insertMoney(amount) {
-    this.machine.balance += amount;
-    console.log(`💰 Inserted ₹${amount}`);
-    this.machine.setState(this.machine.hasMoneyState);
+  selectItem(machine) {
+    console.log("Item selected");
+    machine.setState(new Dispense());
   }
 
-  selectProduct() {
-    console.log("❌ Insert money first.");
+  cancel(machine) {
+    console.log("Transaction cancelled");
+    machine.setState(new NoMoney());
   }
 }
 
-// 🟢 HasMoney State
-class HasMoneyState extends State {
-  constructor(machine) {
-    super();
-    this.machine = machine;
+class Dispense {
+  insert(machine) {
+    console.log("Please wait...");
   }
 
-  insertMoney(amount) {
-    this.machine.balance += amount;
-    console.log(`💰 Inserted ₹${amount}`);
+  selectItem(machine) {
+    console.log("Already dispensing");
   }
 
-  selectProduct(productId) {
-    const product = this.machine.products[productId];
-
-    if (!product || product.qty === 0) {
-      console.log("❌ Product unavailable.");
-      return;
-    }
-
-    if (this.machine.balance < product.price) {
-      console.log("❌ Not enough money.");
-      return;
-    }
-
-    this.machine.selected = product;
-    this.machine.setState(this.machine.dispenseState);
-    this.machine.dispense(); // auto dispense for simplicity
-  }
-
-  cancel() {
-    console.log(`🔁 Returning ₹${this.machine.balance}`);
-    this.machine.balance = 0;
-    this.machine.setState(this.machine.idleState);
+  cancel(machine) {
+    console.log("Cannot cancel while dispensing");
   }
 }
 
-// 🟠 Dispense State
-class DispenseState extends State {
-  constructor(machine) {
-    super();
-    this.machine = machine;
-  }
-
-  dispense() {
-    const product = this.machine.selected;
-
-    product.qty--;
-    this.machine.balance -= product.price;
-
-    console.log(`✅ Dispensed: ${product.name}`);
-
-    if (this.machine.balance > 0) {
-      console.log(`💸 Returned change: ₹${this.machine.balance}`);
-    }
-
-    // Reset
-    this.machine.balance = 0;
-    this.machine.selected = null;
-    this.machine.setState(this.machine.idleState);
-  }
-}
-
-// 🏪 Vending Machine
 class VendingMachine {
   constructor() {
-    this.balance = 0;
-    this.products = {};
-    this.selected = null;
-
-    // States
-    this.idleState = new IdleState(this);
-    this.hasMoneyState = new HasMoneyState(this);
-    this.dispenseState = new DispenseState(this);
-    this.currentState = this.idleState;
+    this.state = new NoMoney();
   }
 
   setState(state) {
-    this.currentState = state;
+    this.state = state;
   }
 
-  addProduct(product) {
-    this.products[product.id] = product;
+  insert() {
+    this.state.insert(this);
   }
 
-  insertMoney(amount) {
-    this.currentState.insertMoney(amount);
-  }
-
-  selectProduct(productId) {
-    this.currentState.selectProduct(productId);
+  selectItem() {
+    this.state.selectItem(this);
   }
 
   cancel() {
-    this.currentState.cancel();
-  }
-
-  dispense() {
-    this.currentState.dispense();
+    this.state.cancel(this);
   }
 }
-
-
-const vm = new VendingMachine();
-
-vm.addProduct(new Product("p1", "Coke", 25, 2));
-vm.addProduct(new Product("p2", "Chips", 30, 1));
-
-vm.selectProduct("p1");   // ❌ Insert money first.
-vm.insertMoney(20);       // 💰 Inserted ₹20
-vm.selectProduct("p1");   // ❌ Not enough money.
-vm.insertMoney(10);       // 💰 Inserted ₹10
-vm.selectProduct("p1");   // ✅ Dispensed Coke + 💸 Change
