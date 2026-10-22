@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CSS Demo</title>
+  <style>
+    body { font-family: system-ui; padding: 24px; }
+    h2 { margin: 24px 0 8px; }
+
+    /* FLEX */
+    .flex-box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      background: #e8f0fe;
+      height: 100px;
+    }
+    .flex-box div {
+      background: #4285f4;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-size: 1.2rem;
+    }
+
+    /* GRID */
+    .grid-box {
+      display: grid;
+      grid-template-columns: repeat(3, 80px);
+      gap: 4px;
+    }
+    .grid-box div {
+      background: #34a853;
+      color: white;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>FLEX — children go side by side, centered</h2>
+  <div class="flex-box">
+    <div>A</div>
+    <div>B</div>
+    <div>C</div>
+  </div>
+
+  <h2>GRID — 3 columns, wraps to next row automatically</h2>
+  <div class="grid-box">
+    <div>A</div><div>B</div><div>C</div>
+    <div>D</div><div>E</div><div>F</div>
+    <div>G</div><div>H</div><div>I</div>
+  </div>
+
+</body>
+</html>

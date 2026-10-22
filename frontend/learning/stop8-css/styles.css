@@ -1,0 +1,104 @@
+/* =============================================================
+   CSS BASICS — only what you need for interview problems
+   =============================================================
+   CSS = rules that say "find these elements, apply these styles"
+   Syntax:
+     selector { property: value; }
+
+   selector = WHO to style  (#id, .class, tag)
+   property = WHAT to change (color, padding, display...)
+   value    = the new value
+   ============================================================= */
+
+
+/* --- RESET: browser adds ugly default margins/padding -------- */
+* {
+  box-sizing: border-box;  /* padding/border don't add to width */
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  padding: 24px;
+  background: #f5f5f5;
+}
+
+
+/* --- CONCEPT 1: THE BOX MODEL --------------------------------
+   Every element is a box with 4 layers:
+   content → padding → border → margin
+
+   padding  = space INSIDE the box (between content and border)
+   margin   = space OUTSIDE the box (between this box and others)
+   border   = the line around the box
+---------------------------------------------------------------- */
+.box {
+  background: #0052cc;
+  color: white;
+  padding: 16px;       /* space inside */
+  margin: 16px 0;      /* space outside: 16px top/bottom, 0 left/right */
+  border-radius: 8px;  /* rounded corners */
+}
+
+
+/* --- CONCEPT 2: FLEXBOX -------------------------------------
+   display: flex  turns a container into a flex container.
+   Its CHILDREN become flex items and line up in a row by default.
+
+   Most used properties:
+     flex-direction: row | column    (horizontal or vertical)
+     justify-content: flex-start | center | space-between | flex-end
+                      (how to spread items along the main axis)
+     align-items: flex-start | center | flex-end
+                  (how to align items on the cross axis)
+     gap: 8px   (space between items)
+-------------------------------------------------------------- */
+.row {
+  display: flex;           /* children line up in a row */
+  gap: 12px;               /* space between cards */
+  margin: 16px 0;
+}
+
+.card {
+  background: white;
+  padding: 16px;
+  border-radius: 8px;
+  flex: 1;                 /* each card takes equal width */
+  text-align: center;
+  border: 1px solid #ddd;
+}
+
+
+/* --- CONCEPT 3: REAL UI PATTERN — text left, button right ---
+   This is the #1 pattern in interview problems.
+   flex + space-between on the ROW pushes items to opposite ends.
+-------------------------------------------------------------- */
+.list {
+  list-style: none;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  overflow: hidden;        /* so border-radius clips children */
+}
+
+.list-item {
+  display: flex;
+  justify-content: space-between;  /* text → left, button → right */
+  align-items: center;             /* vertically centered */
+  padding: 12px 16px;
+  border-bottom: 1px solid #eee;
+}
+
+.list-item:last-child {
+  border-bottom: none;    /* no border on the last item */
+}
+
+button {
+  padding: 6px 12px;
+  background: #de350b;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;        /* shows hand cursor on hover */
+}

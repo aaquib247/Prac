@@ -77,6 +77,36 @@ console.log(trie.autoComplete("app"));
 // trie.add("ape");
 // trie.add("bat");
 
+// You can also add the word "batman" and then autocomplete "bat" to get ["bat", "batman"].
+    // autoComplete(prefix) {
+    //     let node = this.root;
+
+    //     // Find prefix node
+    //     for (let ch of prefix) {
+    //         if (!node.children[ch]) {
+    //             return [];
+    //         }
+
+    //         node = node.children[ch];
+    //     }
+
+    //     let result = [];
+
+    //     this.dfs(node, result);
+
+    //     return result;
+    // }
+
+    // dfs(node, result) {
+    //     if (node.isEndOfWord) {
+    //         result.push(node.isWord);
+    //     }
+
+    //     for (let ch in node.children) {
+    //         this.dfs(node.children[ch], result);
+    //     }
+    // }
+
 // The trie structure would look like this:
 //
 //        root

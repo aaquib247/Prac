@@ -14,3 +14,4 @@ const search = debounce((query) => {
 search("a");    // cancelled
 search("ab");   // cancelled
 search("abc");  // fires after 300ms ✅
+

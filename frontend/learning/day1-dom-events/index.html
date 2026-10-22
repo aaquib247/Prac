@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Day 1 — DOM & Events</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!--
+    HTML is just a TREE of elements (nodes). The browser parses this file
+    into an in-memory tree called the DOM (Document Object Model).
+    Think of it like a JSON object tree you can read AND mutate with JS.
+  -->
+  <main>
+    <h1>Day 1: DOM & Events</h1>
+
+    <!-- SECTION 1: reading/writing an element -->
+    <section>
+      <h2>1. Click counter</h2>
+      <button id="counter-btn">Clicked 0 times</button>
+    </section>
+
+    <!-- SECTION 2: creating + removing elements from a list -->
+    <section>
+      <h2>2. Interactive list</h2>
+      <form id="add-form">
+        <input id="item-input" type="text" placeholder="Type an item..." />
+        <button type="submit">Add</button>
+      </form>
+      <ul id="list"></ul>
+    </section>
+  </main>
+
+  <!-- Load JS at the end so the DOM exists before the script runs -->
+  <script src="app.js"></script>
+</body>
+</html>

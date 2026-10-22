@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Task Table</title>
+  <style>
+    body {
+      font-family: system-ui;
+      padding: 24px;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th,
+    td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      cursor: pointer;
+      background: #f0f0f0;
+    }
+
+    input {
+      margin-bottom: 16px;
+      padding: 8px;
+      width: 300px;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Tasks</h1>
+  <input id="search" type="text" placeholder="Search tasks..." />
+  <p id="status"></p>
+  <table id="task-table">
+    <thead>
+      <tr>
+        <th data-col="id">ID</th>
+        <th data-col="title">Title</th>
+        <th data-col="completed">Status</th>
+        <th data-col="userId">User</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+  
+  <button id="prev-btn">Prev</button>
+  <span id="page-info"></span>
+  <button id="next-btn">Next</button>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

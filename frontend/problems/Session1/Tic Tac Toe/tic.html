@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game</title>
+    <style>
+     #board{
+        display: grid;
+        grid-template-columns: repeat(4,100px);
+        gap: 10px;
+        margin: 20px;
+     }
+     #board div{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        height: 100px;
+        width: 100px;
+        cursor: pointer;
+        border: 2px solid black;
+        font-size: 50px;
+     }
+    </style>
+</head>
+<body>
+    <h1>Tic Tac Toe</h1>
+    <p id="status"></p>
+    <div id="board"></div>
+    <button id="reset-btn">Reset</button>
+    
+    <script src="index.js"></script>
+</body>
+</html>

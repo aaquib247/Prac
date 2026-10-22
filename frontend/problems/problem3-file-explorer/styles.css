@@ -1,0 +1,28 @@
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: system-ui, sans-serif;
+  padding: 24px;
+}
+
+.node {
+  padding: 4px 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.node-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.node-label:hover { background: #f0f0f0; }
+
+.children {
+  margin-left: 20px;  /* indentation for nesting */
+}
+
+.file { color: #333; cursor: default; }
+.folder { color: #0052cc; font-weight: 500; }

@@ -1,0 +1,31 @@
+* { box-sizing: border-box; }
+body {
+  font-family: -apple-system, system-ui, sans-serif;
+  max-width: 640px;
+  margin: 40px auto;
+  padding: 0 16px;
+  line-height: 1.5;
+}
+.hint { color: #666; font-size: 0.9rem; }
+button {
+  padding: 8px 14px;
+  cursor: pointer;
+  border: 1px solid #0052cc;
+  background: #0052cc;
+  color: white;
+  border-radius: 4px;
+}
+input { padding: 8px; border: 1px solid #ccc; border-radius: 4px; }
+ul { list-style: none; padding: 0; }
+li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+  cursor: pointer;
+}
+li button { background: #de350b; border-color: #de350b; padding: 4px 8px; }
+
+/* State drives this class, not inline styles */
+.done span { text-decoration: line-through; opacity: 0.6; }
