@@ -32,3 +32,12 @@
     background-color: lightskyblue;
     border : 1px solid black
  }
+
+ button{
+    margin-left: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 5px;
+ }
