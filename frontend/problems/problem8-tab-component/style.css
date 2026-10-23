@@ -1,0 +1,21 @@
+body { font-family: system-ui; padding: 24px; }
+
+#tab-buttons { display: flex; gap: 8px; margin-bottom: 0; }
+
+button {
+    padding: 10px 20px;
+    border: 1px solid #ccc;
+    border-bottom: none;
+    background: #f4f4f4;
+    cursor: pointer;
+    border-radius: 4px 4px 0 0;
+}
+
+button.active { background: white; border-bottom: 2px solid white; font-weight: bold; }
+
+#tab-content {
+    border: 1px solid #ccc;
+    padding: 20px;
+    border-radius: 0 4px 4px 4px;
+    min-height: 100px;
+}

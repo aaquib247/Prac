@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Feature Toggle</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Feature Flags</h1>
+
+    <!-- ADDON: add new feature -->
+    <input id="input" type="text" placeholder="New feature name..." />
+    <button id="add-btn">Add</button>
+
+    <!-- ADDON: filter -->
+    <select id="filter">
+        <option value="all">All</option>
+        <option value="enabled">Enabled</option>
+        <option value="disabled">Disabled</option>
+    </select>
+
+    <!-- BASIC: list of feature rows rendered here -->
+    <div id="list"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
