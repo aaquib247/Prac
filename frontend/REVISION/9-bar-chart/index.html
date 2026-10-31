@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bar Chart</title>
+    <style>
+        body { font-family: sans-serif; padding: 24px; }
+
+        /* chart is a flex row; bars sit on a common baseline (align-end) */
+        #chart {
+            display: flex;
+            align-items: flex-end;   /* bars grow UP from the bottom */
+            gap: 16px;
+            height: 320px;           /* the chart's max height */
+            border-left: 2px solid #333;
+            border-bottom: 2px solid #333;
+            padding: 8px;
+        }
+
+        .bar-wrap {
+            display: flex;
+            flex-direction: column;  /* value on top, bar, label at bottom */
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .bar {
+            width: 48px;
+            background: #5C6AC4;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .bar-value { font-size: 12px; margin-bottom: 4px; }
+        .bar-label { font-size: 12px; margin-top: 6px; }
+    </style>
+</head>
+
+<body>
+    <h1>Velocity / Bar Chart</h1>
+    <div id="chart"></div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

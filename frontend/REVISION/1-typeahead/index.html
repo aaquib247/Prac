@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typeahead</title>
+    <style>
+        body { font-family: sans-serif; padding: 8px 12px; margin: 0; }
+        #input { border: 2px solid black; padding: 8px; font-weight: bold; width: 250px; }
+        #list { list-style: none; margin: 0; padding: 0; border: 1px solid black; width: 250px; }
+        #list li { cursor: pointer; padding: 4px 8px; }
+        #list li:hover { background: #f0f0f0; }
+    </style>
+</head>
+
+<body>
+    <h1>TypeAhead</h1>
+    <input id="input" type="text" placeholder="Search for...">
+    <ul id="list"></ul>
+    <p id="noMatch"></p>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Consent</title>
+    <style>
+        body { font-family: sans-serif; padding: 24px; }
+
+        /* fixed banner pinned to the bottom of the screen */
+        #banner {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: #222;
+            color: white;
+            padding: 16px 24px;
+            display: flex;             /* message left, buttons right */
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+
+        #banner button {
+            padding: 8px 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+        }
+
+        #accept { background: #4caf50; color: white; }
+        #reject { background: #777; color: white; }
+
+        .hidden { display: none; }      /* used to hide the banner */
+    </style>
+</head>
+
+<body>
+    <h1>Cookie Consent Demo</h1>
+    <p id="result"></p>
+
+    <!-- start hidden; init() decides whether to show it -->
+    <div id="banner" class="hidden">
+        <span>We use cookies to improve your experience.</span>
+        <div>
+            <button id="accept">Accept</button>
+            <button id="reject">Reject</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
